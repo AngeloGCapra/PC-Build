@@ -4,7 +4,7 @@
 Plataforma para montagem e recomendação de PCs.
 
 ## Tecnologias Utilizadas
-- Java 17
+- Java 21
 - Spring Boot
 - React
 - PostgreSQL
@@ -13,7 +13,7 @@ Plataforma para montagem e recomendação de PCs.
 ## Configuração do Ambiente
 
 ### Backend
-1. Instale o JDK 17.
+1. Instale o JDK 21.
 2. Instale o Maven.
 3. Configure o Docker.
 4. Clone o repositório:
