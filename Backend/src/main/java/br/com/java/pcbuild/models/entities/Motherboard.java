@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.MotherboardManufacturerEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -18,12 +19,15 @@ public class Motherboard {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "brand", nullable = false, length = 50)
-    private String brand;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "manufacturer", nullable = false, length = 50)
+    private MotherboardManufacturerEnum manufacturer;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "chipset", nullable = false, length = 50)
     private String chipset;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "form_factor", nullable = false, length = 50)
     private String formFactor;
 

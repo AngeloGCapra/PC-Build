@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.CpuBrandEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -18,8 +19,9 @@ public class Processor {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "brand", nullable = false, length = 50)
-    private String brand;
+    private CpuBrandEnum brand;
 
     @Column(name = "cores", nullable = false)
     private Integer cores;

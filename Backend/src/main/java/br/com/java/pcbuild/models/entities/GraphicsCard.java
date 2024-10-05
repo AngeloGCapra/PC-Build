@@ -1,5 +1,7 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.GpuBrandEnum;
+import br.com.java.pcbuild.enums.GpuChipsetEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -18,11 +20,17 @@ public class GraphicsCard {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "chipset", nullable = false, length = 50)
-    private String chipset;
+    private GpuChipsetEnum chipset;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "manufacturer", nullable = false, length = 50)
+    private String manufacturer;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "brand", nullable = false, length = 50)
-    private String brand;
+    private GpuBrandEnum brand;
 
     @Column(name = "base_clock", nullable = false)
     private Integer baseClock;
