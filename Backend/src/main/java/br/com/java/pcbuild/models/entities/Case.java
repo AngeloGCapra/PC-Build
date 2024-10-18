@@ -18,6 +18,11 @@ public class Case {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "manufacturer", nullable = false, length = 50)
+    private String manufacturer;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 50)
     private String type;
 

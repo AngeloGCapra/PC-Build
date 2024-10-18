@@ -18,6 +18,10 @@ public class Storage {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "manufacturer", nullable = false, length = 50)
+    private String manufacturer;
+
     @Column(name = "capacity", nullable = false)
     private Integer capacity;
 
@@ -27,9 +31,11 @@ public class Storage {
     @Column(name = "type", nullable = false, length = 20)
     private String type;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "form_factor", nullable = false, length = 50)
     private String formFactor;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "storage_interface", nullable = false, length = 50)
     private String storageInterface;
 

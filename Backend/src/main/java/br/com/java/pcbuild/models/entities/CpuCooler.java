@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.CpuCoolerManufacturerEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -18,8 +19,9 @@ public class CpuCooler {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "manufacturer", nullable = false, length = 50)
-    private String manufacturer;
+    private CpuCoolerManufacturerEnum manufacturer;
 
     @Column(name = "fan_rpm")
     private Integer fanRpm;

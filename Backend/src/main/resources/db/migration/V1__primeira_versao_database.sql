@@ -55,8 +55,9 @@ CREATE TABLE "public".graphics_cards
     gpu_id             serial        PRIMARY KEY,
     created_by         integer		 NOT NULL,
     name               varchar(100)  NOT NULL,
-    chipset            varchar(50) 	 NOT NULL,
     brand              varchar(50) 	 NOT NULL,
+    manufacturer       varchar(50)   NOT NULL,
+    chipset            varchar(50) 	 NOT NULL,
     base_clock         integer 		 NOT NULL,
     boost_clock        integer 		 NOT NULL,
     memory_size        integer 	     NOT NULL,
@@ -67,6 +68,7 @@ CREATE TABLE "public".graphics_cards
 
 COMMENT ON COLUMN "public".graphics_cards.chipset IS 'ENUM';
 COMMENT ON COLUMN "public".graphics_cards.brand IS 'ENUM';
+COMMENT ON COLUMN "public".graphics_cards.manufacturer IS 'ENUM';
 
 
 -- ************************************** "public".gpu_performance
@@ -92,7 +94,7 @@ CREATE TABLE "public".cpu_coolers
     component_ranking decimal(5, 2)  NULL
 );
 
-COMMENT ON COLUMN "public".cpu_coolers.manufacturer IS 'ENUM ou Tabela no DB';
+COMMENT ON COLUMN "public".cpu_coolers.manufacturer IS 'ENUM';
 
 
 -- ************************************** "public".motherboards
@@ -101,7 +103,7 @@ CREATE TABLE "public".motherboards
     mobo_id           serial         PRIMARY KEY,
     created_by        integer        NOT NULL,
     name              varchar(100)   NOT NULL,
-    brand             varchar(50)    NOT NULL,
+    manufacturer      varchar(50)    NOT NULL,
     socket_id         integer        NOT NULL,
     chipset           varchar(50)    NOT NULL,
     form_factor       varchar(50)    NOT NULL,
@@ -112,7 +114,7 @@ CREATE TABLE "public".motherboards
     component_ranking decimal(5, 2)  NULL
 );
 
-COMMENT ON COLUMN "public".motherboards.brand IS 'ENUM';
+COMMENT ON COLUMN "public".motherboards.manufacturer IS 'ENUM';
 COMMENT ON COLUMN "public".motherboards.chipset IS 'ENUM';
 COMMENT ON COLUMN "public".motherboards.form_factor IS 'ENUM';
 
@@ -123,6 +125,7 @@ CREATE TABLE "public".ram_modules
     ram_id            serial         PRIMARY KEY,
     created_by        integer        NOT NULL,
     name              varchar(100)   NOT NULL,
+    manufacturer      varchar(50)    NOT NULL,
     type              varchar(20)    NOT NULL,
     speed             integer        NOT NULL,
     modules           varchar(50)  	 NOT NULL,
@@ -132,6 +135,7 @@ CREATE TABLE "public".ram_modules
 
 COMMENT ON COLUMN "public".ram_modules.type IS 'ENUM';
 COMMENT ON COLUMN "public".ram_modules.modules IS 'ENUM';
+COMMENT ON COLUMN "public".ram_modules.manufacturer IS 'ENUM';
 
 
 -- ************************************** "public".storages
@@ -140,6 +144,7 @@ CREATE TABLE "public".storages
     storage_id        serial         PRIMARY KEY,
     created_by        integer      	 NOT NULL,
     name              varchar(100) 	 NOT NULL,
+    manufacturer      varchar(50)    NOT NULL,
     capacity          integer        NOT NULL,
     cache             integer 	     NULL,
     type              varchar(20)  	 NOT NULL,
@@ -151,7 +156,7 @@ CREATE TABLE "public".storages
 
 COMMENT ON COLUMN "public".storages.form_factor IS 'ENUM';
 COMMENT ON COLUMN "public".storages.storage_interface IS 'ENUM';
-
+COMMENT ON COLUMN "public".storages.manufacturer IS 'ENUM';
 
 -- ************************************** "public".power_supplies
 CREATE TABLE "public".power_supplies
@@ -159,6 +164,7 @@ CREATE TABLE "public".power_supplies
     power_supply_id   serial         PRIMARY KEY,
     created_by        integer      	 NOT NULL,
     name              varchar(100) 	 NOT NULL,
+    manufacturer      varchar(50)    NOT NULL,
     type              varchar(20)  	 NOT NULL,
     efficiency_rating varchar(20)  	 NOT NULL,
     wattage           integer        NOT NULL,
@@ -169,6 +175,7 @@ CREATE TABLE "public".power_supplies
 
 COMMENT ON COLUMN "public".power_supplies.type IS 'ENUM';
 COMMENT ON COLUMN "public".power_supplies.efficiency_rating IS 'ENUM';
+COMMENT ON COLUMN "public".power_supplies.manufacturer IS 'ENUM';
 
 
 -- ************************************** "public".cases
@@ -177,6 +184,7 @@ CREATE TABLE "public".cases
     case_id           serial         PRIMARY KEY,
     created_by        integer      	 NOT NULL,
     name              varchar(100) 	 NOT NULL,
+    manufacturer      varchar(50)    NOT NULL,
     type              varchar(50)  	 NOT NULL,
     color             varchar(20)  	 NOT NULL,
     side_panel        varchar(50)  	 NOT NULL,
@@ -185,6 +193,7 @@ CREATE TABLE "public".cases
 );
 
 COMMENT ON COLUMN "public".cases.type IS 'ENUM';
+COMMENT ON COLUMN "public".cases.manufacturer IS 'ENUM';
 
 
 -- ************************************** "public".processor_motherboard_compatibility
