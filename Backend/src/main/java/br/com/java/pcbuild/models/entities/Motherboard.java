@@ -1,5 +1,7 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.MotherboardChipsetEnum;
+import br.com.java.pcbuild.enums.MotherboardFormFactorEnum;
 import br.com.java.pcbuild.enums.MotherboardManufacturerEnum;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -25,11 +27,11 @@ public class Motherboard {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "chipset", nullable = false, length = 50)
-    private String chipset;
+    private MotherboardChipsetEnum chipset;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "form_factor", nullable = false, length = 50)
-    private String formFactor;
+    private MotherboardFormFactorEnum formFactor;
 
     @Column(name = "ram_slots", nullable = false)
     private Integer ramSlots;

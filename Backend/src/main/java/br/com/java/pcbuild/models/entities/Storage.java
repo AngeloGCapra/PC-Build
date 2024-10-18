@@ -1,5 +1,8 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.StorageFormFactorEnum;
+import br.com.java.pcbuild.enums.StorageInterfaceEnum;
+import br.com.java.pcbuild.enums.StorageManufacturerEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -20,7 +23,7 @@ public class Storage {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "manufacturer", nullable = false, length = 50)
-    private String manufacturer;
+    private StorageManufacturerEnum manufacturer;
 
     @Column(name = "capacity", nullable = false)
     private Integer capacity;
@@ -33,11 +36,11 @@ public class Storage {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "form_factor", nullable = false, length = 50)
-    private String formFactor;
+    private StorageFormFactorEnum formFactor;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "storage_interface", nullable = false, length = 50)
-    private String storageInterface;
+    private StorageInterfaceEnum storageInterface;
 
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
