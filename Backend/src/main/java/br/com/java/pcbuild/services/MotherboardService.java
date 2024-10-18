@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.Motherboard;
 import br.com.java.pcbuild.repositories.MotherboardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MotherboardService {
 
+    private final ModelMapper modelMapper;
     private final MotherboardRepository motherboardRepository;
 
     public List<Motherboard> findAllMotherboards() {
@@ -28,19 +32,9 @@ public class MotherboardService {
 
     public Motherboard updateMotherboard(Integer moboId, Motherboard updatedMotherboard) {
         return motherboardRepository.findById(moboId)
-                .map(motherboard -> {
-                    motherboard.setName(updatedMotherboard.getName());
-                    motherboard.setManufacturer(updatedMotherboard.getManufacturer());
-                    motherboard.setChipset(updatedMotherboard.getChipset());
-                    motherboard.setFormFactor(updatedMotherboard.getFormFactor());
-                    motherboard.setRamSlots(updatedMotherboard.getRamSlots());
-                    motherboard.setMemoryMax(updatedMotherboard.getMemoryMax());
-                    motherboard.setPcieSlots(updatedMotherboard.getPcieSlots());
-                    motherboard.setPrice(updatedMotherboard.getPrice());
-                    motherboard.setComponentRanking(updatedMotherboard.getComponentRanking());
-                    motherboard.setSocket(updatedMotherboard.getSocket());
-
-                    return motherboardRepository.save(motherboard);
+                .map(motherboardEntity -> {
+                    modelMapper.map(updatedMotherboard, motherboardEntity);
+                    return motherboardRepository.save(motherboardEntity);
                 }).orElseThrow(() -> new RuntimeException("Motherboard not found"));
     }
 
