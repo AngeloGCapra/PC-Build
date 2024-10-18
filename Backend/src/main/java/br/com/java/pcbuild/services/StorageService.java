@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.Storage;
 import br.com.java.pcbuild.repositories.StorageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StorageService {
 
+    private final ModelMapper modelMapper;
     private final StorageRepository storageRepository;
 
     public List<Storage> findAllStorages() {
@@ -28,18 +32,9 @@ public class StorageService {
 
     public Storage updateStorage(Integer storageId, Storage updatedStorage) {
         return storageRepository.findById(storageId)
-                .map(storage -> {
-                    storage.setName(updatedStorage.getName());
-                    storage.setManufacturer(updatedStorage.getManufacturer());
-                    storage.setCapacity(updatedStorage.getCapacity());
-                    storage.setCache(updatedStorage.getCache());
-                    storage.setType(updatedStorage.getType());
-                    storage.setFormFactor(updatedStorage.getFormFactor());
-                    storage.setStorageInterface(updatedStorage.getStorageInterface());
-                    storage.setPrice(updatedStorage.getPrice());
-                    storage.setComponentRanking(updatedStorage.getComponentRanking());
-
-                    return storageRepository.save(storage);
+                .map(storageEntity -> {
+                    modelMapper.map(updatedStorage, storageEntity);
+                    return storageRepository.save(storageEntity);
                 }).orElseThrow(() -> new RuntimeException("Storage not found"));
     }
 

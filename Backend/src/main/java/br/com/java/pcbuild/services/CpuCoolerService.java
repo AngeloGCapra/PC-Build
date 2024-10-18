@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.CpuCooler;
 import br.com.java.pcbuild.repositories.CpuCoolerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CpuCoolerService {
 
+    private final ModelMapper modelMapper;
     private final CpuCoolerRepository cpuCoolerRepository;
 
     public List<CpuCooler> findAllCpuCoolers() {
@@ -28,16 +32,9 @@ public class CpuCoolerService {
 
     public CpuCooler updateCpuCooler(Integer cpuCoolerId, CpuCooler updatedCpuCooler) {
         return cpuCoolerRepository.findById(cpuCoolerId)
-                .map(cpuCooler -> {
-                    cpuCooler.setName(updatedCpuCooler.getName());
-                    cpuCooler.setManufacturer(updatedCpuCooler.getManufacturer());
-                    cpuCooler.setFanRpm(updatedCpuCooler.getFanRpm());
-                    cpuCooler.setNoiseLevel(updatedCpuCooler.getNoiseLevel());
-                    cpuCooler.setRadiatorSize(updatedCpuCooler.getRadiatorSize());
-                    cpuCooler.setPrice(updatedCpuCooler.getPrice());
-                    cpuCooler.setComponentRanking(updatedCpuCooler.getComponentRanking());
-
-                    return cpuCoolerRepository.save(cpuCooler);
+                .map(cpuCoolerEntity -> {
+                    modelMapper.map(updatedCpuCooler, cpuCoolerEntity);
+                    return cpuCoolerRepository.save(cpuCoolerEntity);
                 }).orElseThrow(() -> new RuntimeException("CpuCooler not found"));
     }
 

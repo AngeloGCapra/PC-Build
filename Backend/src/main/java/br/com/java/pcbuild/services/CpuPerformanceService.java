@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.CpuPerformance;
 import br.com.java.pcbuild.repositories.CpuPerformanceRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CpuPerformanceService {
 
+    private final ModelMapper modelMapper;
     private final CpuPerformanceRepository cpuPerformanceRepository;
 
     public List<CpuPerformance> findAllCpuPerformances() {
@@ -28,11 +32,9 @@ public class CpuPerformanceService {
 
     public CpuPerformance updateCpuPerformance(Integer cpuPerformanceId, CpuPerformance updatedCpuPerformance) {
         return cpuPerformanceRepository.findById(cpuPerformanceId)
-                .map(cpuPerformance -> {
-                    cpuPerformance.setRelativePerformance(updatedCpuPerformance.getRelativePerformance());
-                    cpuPerformance.setCpu(updatedCpuPerformance.getCpu());
-
-                    return cpuPerformanceRepository.save(cpuPerformance);
+                .map(cpuPerformanceEntity -> {
+                    modelMapper.map(updatedCpuPerformance, cpuPerformanceEntity);
+                    return cpuPerformanceRepository.save(cpuPerformanceEntity);
                 }).orElseThrow(() -> new RuntimeException("CpuPerformance not found"));
     }
 

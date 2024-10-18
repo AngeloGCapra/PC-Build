@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.PowerSupply;
 import br.com.java.pcbuild.repositories.PowerSupplyRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PowerSupplyService {
 
+    private final ModelMapper modelMapper;
     private final PowerSupplyRepository powerSupplyRepository;
 
     public List<PowerSupply> findAllPowerSupplies() {
@@ -28,17 +32,9 @@ public class PowerSupplyService {
 
     public PowerSupply updatePowerSupply(Integer powerSupplyId, PowerSupply updatedPowerSupply) {
         return powerSupplyRepository.findById(powerSupplyId)
-                .map(powerSupply -> {
-                    powerSupply.setName(updatedPowerSupply.getName());
-                    powerSupply.setManufacturer(updatedPowerSupply.getManufacturer());
-                    powerSupply.setType(updatedPowerSupply.getType());
-                    powerSupply.setEfficiencyRating(updatedPowerSupply.getEfficiencyRating());
-                    powerSupply.setWattage(updatedPowerSupply.getWattage());
-                    powerSupply.setModular(updatedPowerSupply.isModular());
-                    powerSupply.setPrice(updatedPowerSupply.getPrice());
-                    powerSupply.setComponentRanking(updatedPowerSupply.getComponentRanking());
-
-                    return powerSupplyRepository.save(powerSupply);
+                .map(powerSupplyEntity -> {
+                    modelMapper.map(updatedPowerSupply, powerSupplyEntity);
+                    return powerSupplyRepository.save(powerSupplyEntity);
                 }).orElseThrow(() -> new RuntimeException("Power Supply not found"));
     }
 

@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.Processor;
 import br.com.java.pcbuild.repositories.ProcessorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProcessorService {
 
+    private final ModelMapper modelMapper;
     private final ProcessorRepository processorRepository;
 
     public List<Processor> findAllProcessors() {
@@ -28,20 +32,9 @@ public class ProcessorService {
 
     public Processor updateProcessor(Integer processorId, Processor updatedProcessor) {
         return processorRepository.findById(processorId)
-                .map(processor -> {
-                    processor.setName(updatedProcessor.getName());
-                    processor.setBrand(updatedProcessor.getBrand());
-                    processor.setCores(updatedProcessor.getCores());
-                    processor.setThreads(updatedProcessor.getThreads());
-                    processor.setBaseClock(updatedProcessor.getBaseClock());
-                    processor.setTurboClock(updatedProcessor.getTurboClock());
-                    processor.setTdp(updatedProcessor.getTdp());
-                    processor.setPrice(updatedProcessor.getPrice());
-                    processor.setComponentRanking(updatedProcessor.getComponentRanking());
-                    processor.setSocket(updatedProcessor.getSocket());
-                    processor.setCpuPerformance(updatedProcessor.getCpuPerformance());
-
-                    return processorRepository.save(processor);
+                .map(processorEntity -> {
+                    modelMapper.map(updatedProcessor, processorEntity);
+                    return processorRepository.save(processorEntity);
                 }).orElseThrow(() -> new RuntimeException("Processor not found"));
     }
 

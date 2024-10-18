@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.UserBuild;
 import br.com.java.pcbuild.repositories.UserBuildRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserBuildService {
 
+    private final ModelMapper modelMapper;
     private final UserBuildRepository userBuildRepository;
 
     public List<UserBuild> findAllUserBuilds() {
@@ -28,20 +32,9 @@ public class UserBuildService {
 
     public UserBuild updateUserBuild(Integer userBuildId, UserBuild updatedUserBuild) {
         return userBuildRepository.findById(userBuildId)
-                .map(existingUserBuild -> {
-                    existingUserBuild.setTotalPrice(updatedUserBuild.getTotalPrice());
-                    existingUserBuild.setUsageType(updatedUserBuild.getUsageType());
-                    existingUserBuild.setUser(updatedUserBuild.getUser());
-                    existingUserBuild.setCpu(updatedUserBuild.getCpu());
-                    existingUserBuild.setGpu(updatedUserBuild.getGpu());
-                    existingUserBuild.setMotherboard(updatedUserBuild.getMotherboard());
-                    existingUserBuild.setRam(updatedUserBuild.getRam());
-                    existingUserBuild.setStorage(updatedUserBuild.getStorage());
-                    existingUserBuild.setPowerSupply(updatedUserBuild.getPowerSupply());
-                    existingUserBuild.setPcCase(updatedUserBuild.getPcCase());
-                    existingUserBuild.setCpuCooler(updatedUserBuild.getCpuCooler());
-
-                    return userBuildRepository.save(existingUserBuild);
+                .map(existingUserBuildEntity -> {
+                    modelMapper.map(updatedUserBuild, existingUserBuildEntity);
+                    return userBuildRepository.save(existingUserBuildEntity);
                 }).orElseThrow(() -> new RuntimeException("User build not found"));
     }
 

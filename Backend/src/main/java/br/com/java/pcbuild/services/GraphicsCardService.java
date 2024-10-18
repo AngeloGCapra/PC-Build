@@ -3,15 +3,19 @@ package br.com.java.pcbuild.services;
 import br.com.java.pcbuild.models.entities.GraphicsCard;
 import br.com.java.pcbuild.repositories.GraphicsCardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GraphicsCardService {
 
+    private final ModelMapper modelMapper;
     private final GraphicsCardRepository graphicsCardRepository;
 
     public List<GraphicsCard> findAllGraphicsCards() {
@@ -28,19 +32,9 @@ public class GraphicsCardService {
 
     public GraphicsCard updateGraphicsCard(Integer gpuId, GraphicsCard updatedGraphicsCard) {
         return graphicsCardRepository.findById(gpuId)
-                .map(graphicsCard -> {
-                    graphicsCard.setName(updatedGraphicsCard.getName());
-                    graphicsCard.setChipset(updatedGraphicsCard.getChipset());
-                    graphicsCard.setManufacturer(updatedGraphicsCard.getManufacturer());
-                    graphicsCard.setBrand(updatedGraphicsCard.getBrand());
-                    graphicsCard.setBaseClock(updatedGraphicsCard.getBaseClock());
-                    graphicsCard.setBoostClock(updatedGraphicsCard.getBoostClock());
-                    graphicsCard.setMemorySize(updatedGraphicsCard.getMemorySize());
-                    graphicsCard.setPrice(updatedGraphicsCard.getPrice());
-                    graphicsCard.setComponentRanking(updatedGraphicsCard.getComponentRanking());
-                    graphicsCard.setGpuPerformance(updatedGraphicsCard.getGpuPerformance());
-
-                    return graphicsCardRepository.save(graphicsCard);
+                .map(graphicsCardEntity -> {
+                    modelMapper.map(updatedGraphicsCard, graphicsCardEntity);
+                    return graphicsCardRepository.save(graphicsCardEntity);
                 }).orElseThrow(() -> new RuntimeException("GraphicsCard not found"));
     }
 
