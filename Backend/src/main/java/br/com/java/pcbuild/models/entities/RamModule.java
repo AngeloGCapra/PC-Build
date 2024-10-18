@@ -1,5 +1,8 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.RamModuleManufacturerEnum;
+import br.com.java.pcbuild.enums.RamModuleModulesEnum;
+import br.com.java.pcbuild.enums.RamModuleTypeEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -20,18 +23,18 @@ public class RamModule {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "manufacturer", nullable = false, length = 50)
-    private String manufacturer;
+    private RamModuleManufacturerEnum manufacturer;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 20)
-    private String type;
+    private RamModuleTypeEnum type;
 
     @Column(name = "speed", nullable = false)
     private Integer speed;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "modules", nullable = false, length = 50)
-    private String modules;
+    private RamModuleModulesEnum modules;
 
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;

@@ -1,5 +1,7 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.CaseManufacturerEnum;
+import br.com.java.pcbuild.enums.CaseTypeEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -20,11 +22,11 @@ public class Case {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "manufacturer", nullable = false, length = 50)
-    private String manufacturer;
+    private CaseManufacturerEnum manufacturer;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 50)
-    private String type;
+    private CaseTypeEnum type;
 
     @Column(name = "color", nullable = false, length = 20)
     private String color;
