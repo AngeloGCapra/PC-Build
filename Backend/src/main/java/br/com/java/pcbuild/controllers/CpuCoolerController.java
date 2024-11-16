@@ -19,32 +19,32 @@ public class CpuCoolerController {
 
     private final CpuCoolerService cpuCoolerService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllCpuCoolers")
     public ResponseEntity<List<CpuCooler>> getAllCpuCoolers() {
         List<CpuCooler> cpuCoolers = cpuCoolerService.findAllCpuCoolers();
         return ResponseEntity.ok(cpuCoolers);
     }
 
-    @GetMapping("/{cpuCoolerId}")
+    @GetMapping("/getCpuCoolerById/{cpuCoolerId}")
     public ResponseEntity<Optional<CpuCooler>> getCpuCoolerById(@PathVariable("cpuCoolerId") Integer cpuCoolerId) {
         Optional<CpuCooler> cpuCooler = cpuCoolerService.findCpuCoolerById(cpuCoolerId);
         return ResponseEntity.ok(cpuCooler);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createCpuCooler")
     public ResponseEntity<CpuCooler> createCpuCooler(@RequestBody CpuCooler cpuCooler) {
         CpuCooler newCpuCooler = cpuCoolerService.createCpuCooler(cpuCooler);
         return new ResponseEntity<>(newCpuCooler, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{cpuCoolerId}")
+    @PutMapping("/updateCpuCooler/{cpuCoolerId}")
     public ResponseEntity<CpuCooler> updateCpuCooler(@PathVariable("cpuCoolerId") Integer cpuCoolerId,
                                                      @RequestBody CpuCooler cpuCooler) {
         CpuCooler updatedCpuCooler = cpuCoolerService.updateCpuCooler(cpuCoolerId, cpuCooler);
         return ResponseEntity.ok(updatedCpuCooler);
     }
 
-    @DeleteMapping("/{cpuCoolerId}")
+    @DeleteMapping("/deleteCpuCooler/{cpuCoolerId}")
     public ResponseEntity<Void> deleteCpuCooler(@PathVariable("cpuCoolerId") Integer cpuCoolerId) {
         cpuCoolerService.deleteCpuCooler(cpuCoolerId);
         return ResponseEntity.noContent().build();

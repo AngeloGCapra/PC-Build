@@ -19,32 +19,32 @@ public class CaseController {
 
     private final CaseService caseService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllCases")
     public ResponseEntity<List<Case>> getAllCases() {
         List<Case> cases = caseService.findAllCases();
         return ResponseEntity.ok(cases);
     }
 
-    @GetMapping("/{caseId}")
+    @GetMapping("/getCaseById/{caseId}")
     public ResponseEntity<Optional<Case>> getCaseById(@PathVariable("caseId") Integer caseId) {
         Optional<Case> caseEntity = caseService.findCaseById(caseId);
         return ResponseEntity.ok(caseEntity);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createCase")
     public ResponseEntity<Case> createCase(@RequestBody Case caseEntity) {
         Case newCase = caseService.createCase(caseEntity);
         return new ResponseEntity<>(newCase, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{caseId}")
+    @PutMapping("/updateCase/{caseId}")
     public ResponseEntity<Case> updateCase(@PathVariable("caseId") Integer caseId,
                                            @RequestBody Case caseEntity) {
         Case updatedCase = caseService.updateCase(caseId, caseEntity);
         return ResponseEntity.ok(updatedCase);
     }
 
-    @DeleteMapping("/{caseId}")
+    @DeleteMapping("/deleteCase/{caseId}")
     public ResponseEntity<Void> deleteCase(@PathVariable("caseId") Integer caseId) {
         caseService.deleteCase(caseId);
         return ResponseEntity.noContent().build();

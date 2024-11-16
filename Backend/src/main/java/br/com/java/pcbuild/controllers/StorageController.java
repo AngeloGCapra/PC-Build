@@ -19,32 +19,32 @@ public class StorageController {
 
     private final StorageService storageService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllStorages")
     public ResponseEntity<List<Storage>> getAllStorages() {
         List<Storage> storages = storageService.findAllStorages();
         return ResponseEntity.ok(storages);
     }
 
-    @GetMapping("/{storageId}")
+    @GetMapping("/getStorageById/{storageId}")
     public ResponseEntity<Optional<Storage>> getStorageById(@PathVariable("storageId") Integer storageId) {
         Optional<Storage> storage = storageService.findStorageById(storageId);
         return ResponseEntity.ok(storage);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createStorage")
     public ResponseEntity<Storage> createStorage(@RequestBody Storage storage) {
         Storage newStorage = storageService.createStorage(storage);
         return new ResponseEntity<>(newStorage, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{storageId}")
+    @PutMapping("/updateStorage/{storageId}")
     public ResponseEntity<Storage> updateStorage(@PathVariable("storageId") Integer storageId,
                                                  @RequestBody Storage updatedStorage) {
         Storage storage = storageService.updateStorage(storageId, updatedStorage);
         return ResponseEntity.ok(storage);
     }
 
-    @DeleteMapping("/{storageId}")
+    @DeleteMapping("/deleteStorage/{storageId}")
     public ResponseEntity<Void> deleteStorage(@PathVariable("storageId") Integer storageId) {
         storageService.deleteStorage(storageId);
         return ResponseEntity.noContent().build();

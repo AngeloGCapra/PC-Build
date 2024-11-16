@@ -19,32 +19,32 @@ public class RamModuleController {
 
     private final RamModuleService ramModuleService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllRamModules")
     public ResponseEntity<List<RamModule>> getAllRamModules() {
         List<RamModule> ramModules = ramModuleService.findAllRamModules();
         return ResponseEntity.ok(ramModules);
     }
 
-    @GetMapping("/{ramId}")
+    @GetMapping("/getRamModuleById/{ramId}")
     public ResponseEntity<Optional<RamModule>> getRamModuleById(@PathVariable("ramId") Integer ramId) {
         Optional<RamModule> ramModule = ramModuleService.findRamModuleById(ramId);
         return ResponseEntity.ok(ramModule);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createRamModule")
     public ResponseEntity<RamModule> createRamModule(@RequestBody RamModule ramModule) {
         RamModule newRamModule = ramModuleService.createRamModule(ramModule);
         return new ResponseEntity<>(newRamModule, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{ramId}")
+    @PutMapping("/updateRamModule/{ramId}")
     public ResponseEntity<RamModule> updateRamModule(@PathVariable("ramId") Integer ramId,
                                                      @RequestBody RamModule ramModule) {
         RamModule updatedRamModule = ramModuleService.updateRamModule(ramId, ramModule);
         return ResponseEntity.ok(updatedRamModule);
     }
 
-    @DeleteMapping("/{ramId}")
+    @DeleteMapping("/deleteRamModule/{ramId}")
     public ResponseEntity<Void> deleteRamModule(@PathVariable("ramId") Integer ramId) {
         ramModuleService.deleteRamModule(ramId);
         return ResponseEntity.noContent().build();

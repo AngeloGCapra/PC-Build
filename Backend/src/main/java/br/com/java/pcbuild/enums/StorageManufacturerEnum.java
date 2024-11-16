@@ -12,6 +12,7 @@ public enum StorageManufacturerEnum {
     INTEL,
     TOSHIBA,
     PNY,
-    TEAMGROUP
+    TEAMGROUP,
+    HIKSEMI
 
 }

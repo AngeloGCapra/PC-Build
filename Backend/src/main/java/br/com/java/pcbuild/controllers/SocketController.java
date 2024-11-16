@@ -19,32 +19,32 @@ public class SocketController {
 
     private final SocketService socketService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllSockets")
     public ResponseEntity<List<Socket>> getAllSockets() {
         List<Socket> sockets = socketService.findAllSockets();
         return ResponseEntity.ok(sockets);
     }
 
-    @GetMapping("/{socketId}")
+    @GetMapping("/getSocketById/{socketId}")
     public ResponseEntity<Optional<Socket>> getSocketById(@PathVariable("socketId") Integer socketId) {
         Optional<Socket> socket = socketService.findSocketById(socketId);
         return ResponseEntity.ok(socket);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createSocket")
     public ResponseEntity<Socket> createSocket(@RequestBody Socket socket) {
         Socket newSocket = socketService.createSocket(socket);
         return new ResponseEntity<>(newSocket, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{socketId}")
+    @PutMapping("/updateSocket/{socketId}")
     public ResponseEntity<Socket> updateSocket(@PathVariable("socketId") Integer socketId,
                                                @RequestBody Socket updatedSocket) {
         Socket socket = socketService.updateSocket(socketId, updatedSocket);
         return ResponseEntity.ok(socket);
     }
 
-    @DeleteMapping("/{socketId}")
+    @DeleteMapping("/deleteSocket/{socketId}")
     public ResponseEntity<Void> deleteSocket(@PathVariable("socketId") Integer socketId) {
         socketService.deleteSocket(socketId);
         return ResponseEntity.noContent().build();

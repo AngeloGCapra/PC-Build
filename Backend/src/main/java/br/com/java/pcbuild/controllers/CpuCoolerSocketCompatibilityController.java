@@ -19,32 +19,32 @@ public class CpuCoolerSocketCompatibilityController {
 
     private final CpuCoolerSocketCompatibilityService compatibilityService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllCompatibilities")
     public ResponseEntity<List<CpuCoolerSocketCompatibility>> getAllCompatibilities() {
         List<CpuCoolerSocketCompatibility> compatibilities = compatibilityService.findAllCompatibilities();
         return ResponseEntity.ok(compatibilities);
     }
 
-    @GetMapping("/{cscId}")
+    @GetMapping("/getCompatibilityById/{cscId}")
     public ResponseEntity<Optional<CpuCoolerSocketCompatibility>> getCompatibilityById(@PathVariable("cscId") Integer cscId) {
         Optional<CpuCoolerSocketCompatibility> compatibility = compatibilityService.findCompatibilityById(cscId);
         return ResponseEntity.ok(compatibility);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createCompatibility")
     public ResponseEntity<CpuCoolerSocketCompatibility> createCompatibility(@RequestBody CpuCoolerSocketCompatibility compatibility) {
         CpuCoolerSocketCompatibility newCompatibility = compatibilityService.createCompatibility(compatibility);
         return new ResponseEntity<>(newCompatibility, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{cscId}")
+    @PutMapping("/updateCompatibility/{cscId}")
     public ResponseEntity<CpuCoolerSocketCompatibility> updateCompatibility(@PathVariable("cscId") Integer cscId,
                                                                             @RequestBody CpuCoolerSocketCompatibility compatibility) {
         CpuCoolerSocketCompatibility updatedCompatibility = compatibilityService.updateCompatibility(cscId, compatibility);
         return ResponseEntity.ok(updatedCompatibility);
     }
 
-    @DeleteMapping("/{cscId}")
+    @DeleteMapping("/deleteCompatibility/{cscId}")
     public ResponseEntity<Void> deleteCompatibility(@PathVariable("cscId") Integer cscId) {
         compatibilityService.deleteCompatibility(cscId);
         return ResponseEntity.noContent().build();

@@ -12,6 +12,8 @@ public enum CaseManufacturerEnum {
     LIAN_LI,
     SILVERSTONE,
     ANTEC,
-    AEROCOOL
+    AEROCOOL,
+    SUPERFRAME,
+    MONTECH
 
 }
