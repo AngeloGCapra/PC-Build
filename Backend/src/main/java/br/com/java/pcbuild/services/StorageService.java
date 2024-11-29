@@ -22,7 +22,7 @@ public class StorageService {
         return storageRepository.findAll();
     }
 
-    public Optional<Storage> findStorageById(Integer storageId) {
+    public Optional<Storage> findStorageById(Long storageId) {
         return storageRepository.findById(storageId);
     }
 
@@ -30,7 +30,7 @@ public class StorageService {
         return storageRepository.save(storage);
     }
 
-    public Storage updateStorage(Integer storageId, Storage updatedStorage) {
+    public Storage updateStorage(Long storageId, Storage updatedStorage) {
         return storageRepository.findById(storageId)
                 .map(storageEntity -> {
                     modelMapper.map(updatedStorage, storageEntity);
@@ -38,7 +38,7 @@ public class StorageService {
                 }).orElseThrow(() -> new RuntimeException("Storage not found"));
     }
 
-    public void deleteStorage(Integer storageId) {
+    public void deleteStorage(Long storageId) {
         storageRepository.deleteById(storageId);
     }
 

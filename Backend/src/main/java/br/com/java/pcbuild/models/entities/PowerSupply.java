@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.Utils.Component;
 import br.com.java.pcbuild.enums.PowerSupplyEfficiencyRatingEnum;
 import br.com.java.pcbuild.enums.PowerSupplyManufacturerEnum;
 import br.com.java.pcbuild.enums.PowerSupplyTypeEnum;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "power_supplies")
-public class PowerSupply {
+public class PowerSupply implements Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +49,10 @@ public class PowerSupply {
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+
+    @Override
+    public BigDecimal getPrice() {
+        return price;
+    }
 
 }

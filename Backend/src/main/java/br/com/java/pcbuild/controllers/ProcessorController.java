@@ -19,33 +19,33 @@ public class ProcessorController {
 
     private final ProcessorService processorService;
 
-    @GetMapping
+    @GetMapping("/getAllProcessors")
     public ResponseEntity<List<Processor>> getAllProcessors() {
         List<Processor> processors = processorService.findAllProcessors();
         return ResponseEntity.ok(processors);
     }
 
-    @GetMapping("/{processorId}")
-    public ResponseEntity<Optional<Processor>> getProcessorById(@PathVariable("processorId") Integer processorId) {
+    @GetMapping("/getProcessorById/{processorId}")
+    public ResponseEntity<Optional<Processor>> getProcessorById(@PathVariable("processorId") Long processorId) {
         Optional<Processor> processor = processorService.findProcessorById(processorId);
         return ResponseEntity.ok(processor);
     }
 
-    @PostMapping
+    @PostMapping("/createProcessor")
     public ResponseEntity<Processor> createProcessor(@RequestBody Processor processor) {
         Processor newProcessor = processorService.createProcessor(processor);
         return new ResponseEntity<>(newProcessor, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{processorId}")
-    public ResponseEntity<Processor> updateProcessor(@PathVariable("processorId") Integer processorId,
+    @PutMapping("/updateProcessor/{processorId}")
+    public ResponseEntity<Processor> updateProcessor(@PathVariable("processorId") Long processorId,
                                                      @RequestBody Processor processor) {
         Processor updatedProcessor = processorService.updateProcessor(processorId, processor);
         return ResponseEntity.ok(updatedProcessor);
     }
 
-    @DeleteMapping("/{processorId}")
-    public ResponseEntity<Void> deleteProcessor(@PathVariable("processorId") Integer processorId) {
+    @DeleteMapping("/deleteProcessor/{processorId}")
+    public ResponseEntity<Void> deleteProcessor(@PathVariable("processorId") Long processorId) {
         processorService.deleteProcessor(processorId);
         return ResponseEntity.noContent().build();
     }

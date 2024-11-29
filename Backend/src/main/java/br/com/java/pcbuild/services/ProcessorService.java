@@ -22,7 +22,7 @@ public class ProcessorService {
         return processorRepository.findAll();
     }
 
-    public Optional<Processor> findProcessorById(Integer processorId) {
+    public Optional<Processor> findProcessorById(Long processorId) {
         return processorRepository.findById(processorId);
     }
 
@@ -30,7 +30,7 @@ public class ProcessorService {
         return processorRepository.save(processor);
     }
 
-    public Processor updateProcessor(Integer processorId, Processor updatedProcessor) {
+    public Processor updateProcessor(Long processorId, Processor updatedProcessor) {
         return processorRepository.findById(processorId)
                 .map(processorEntity -> {
                     modelMapper.map(updatedProcessor, processorEntity);
@@ -38,7 +38,7 @@ public class ProcessorService {
                 }).orElseThrow(() -> new RuntimeException("Processor not found"));
     }
 
-    public void deleteProcessor(Integer processorId) {
+    public void deleteProcessor(Long processorId) {
         processorRepository.deleteById(processorId);
     }
 

@@ -19,33 +19,33 @@ public class CpuPerformanceController {
 
     private final CpuPerformanceService cpuPerformanceService;
 
-    @GetMapping
+    @GetMapping("/getAllCpuPerformances")
     public ResponseEntity<List<CpuPerformance>> getAllCpuPerformances() {
         List<CpuPerformance> cpuPerformances = cpuPerformanceService.findAllCpuPerformances();
         return ResponseEntity.ok(cpuPerformances);
     }
 
-    @GetMapping("/{cpuPerformanceId}")
-    public ResponseEntity<Optional<CpuPerformance>> getCpuPerformanceById(@PathVariable("cpuPerformanceId") Integer cpuPerformanceId) {
+    @GetMapping("/getCpuPerformanceById/{cpuPerformanceId}")
+    public ResponseEntity<Optional<CpuPerformance>> getCpuPerformanceById(@PathVariable("cpuPerformanceId") Long cpuPerformanceId) {
         Optional<CpuPerformance> cpuPerformance = cpuPerformanceService.findCpuPerformanceById(cpuPerformanceId);
         return ResponseEntity.ok(cpuPerformance);
     }
 
-    @PostMapping
+    @PostMapping("/createCpuPerformance")
     public ResponseEntity<CpuPerformance> createCpuPerformance(@RequestBody CpuPerformance cpuPerformance) {
         CpuPerformance newCpuPerformance = cpuPerformanceService.createCpuPerformance(cpuPerformance);
         return new ResponseEntity<>(newCpuPerformance, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{cpuPerformanceId}")
-    public ResponseEntity<CpuPerformance> updateCpuPerformance(@PathVariable("cpuPerformanceId") Integer cpuPerformanceId,
+    @PutMapping("/updateCpuPerformance/{cpuPerformanceId}")
+    public ResponseEntity<CpuPerformance> updateCpuPerformance(@PathVariable("cpuPerformanceId") Long cpuPerformanceId,
                                                                @RequestBody CpuPerformance cpuPerformance) {
         CpuPerformance updatedCpuPerformance = cpuPerformanceService.updateCpuPerformance(cpuPerformanceId, cpuPerformance);
         return ResponseEntity.ok(updatedCpuPerformance);
     }
 
-    @DeleteMapping("/{cpuPerformanceId}")
-    public ResponseEntity<Void> deleteCpuPerformance(@PathVariable("cpuPerformanceId") Integer cpuPerformanceId) {
+    @DeleteMapping("/deleteCpuPerformance/{cpuPerformanceId}")
+    public ResponseEntity<Void> deleteCpuPerformance(@PathVariable("cpuPerformanceId") Long cpuPerformanceId) {
         cpuPerformanceService.deleteCpuPerformance(cpuPerformanceId);
         return ResponseEntity.noContent().build();
     }

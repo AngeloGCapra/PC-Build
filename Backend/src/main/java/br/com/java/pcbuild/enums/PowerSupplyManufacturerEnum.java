@@ -13,6 +13,8 @@ public enum PowerSupplyManufacturerEnum {
     SILVERSTONE,
     ASUS,
     GIGABYTE,
-    AEROCOOL
+    AEROCOOL,
+    XPG,
+    MSI
 
 }

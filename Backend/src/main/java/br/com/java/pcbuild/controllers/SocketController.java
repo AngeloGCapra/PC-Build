@@ -26,7 +26,7 @@ public class SocketController {
     }
 
     @GetMapping("/getSocketById/{socketId}")
-    public ResponseEntity<Optional<Socket>> getSocketById(@PathVariable("socketId") Integer socketId) {
+    public ResponseEntity<Optional<Socket>> getSocketById(@PathVariable("socketId") Long socketId) {
         Optional<Socket> socket = socketService.findSocketById(socketId);
         return ResponseEntity.ok(socket);
     }
@@ -38,14 +38,14 @@ public class SocketController {
     }
 
     @PutMapping("/updateSocket/{socketId}")
-    public ResponseEntity<Socket> updateSocket(@PathVariable("socketId") Integer socketId,
+    public ResponseEntity<Socket> updateSocket(@PathVariable("socketId") Long socketId,
                                                @RequestBody Socket updatedSocket) {
         Socket socket = socketService.updateSocket(socketId, updatedSocket);
         return ResponseEntity.ok(socket);
     }
 
     @DeleteMapping("/deleteSocket/{socketId}")
-    public ResponseEntity<Void> deleteSocket(@PathVariable("socketId") Integer socketId) {
+    public ResponseEntity<Void> deleteSocket(@PathVariable("socketId") Long socketId) {
         socketService.deleteSocket(socketId);
         return ResponseEntity.noContent().build();
     }

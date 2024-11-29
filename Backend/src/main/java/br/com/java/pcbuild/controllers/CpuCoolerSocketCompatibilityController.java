@@ -26,7 +26,7 @@ public class CpuCoolerSocketCompatibilityController {
     }
 
     @GetMapping("/getCompatibilityById/{cscId}")
-    public ResponseEntity<Optional<CpuCoolerSocketCompatibility>> getCompatibilityById(@PathVariable("cscId") Integer cscId) {
+    public ResponseEntity<Optional<CpuCoolerSocketCompatibility>> getCompatibilityById(@PathVariable("cscId") Long cscId) {
         Optional<CpuCoolerSocketCompatibility> compatibility = compatibilityService.findCompatibilityById(cscId);
         return ResponseEntity.ok(compatibility);
     }
@@ -38,14 +38,14 @@ public class CpuCoolerSocketCompatibilityController {
     }
 
     @PutMapping("/updateCompatibility/{cscId}")
-    public ResponseEntity<CpuCoolerSocketCompatibility> updateCompatibility(@PathVariable("cscId") Integer cscId,
+    public ResponseEntity<CpuCoolerSocketCompatibility> updateCompatibility(@PathVariable("cscId") Long cscId,
                                                                             @RequestBody CpuCoolerSocketCompatibility compatibility) {
         CpuCoolerSocketCompatibility updatedCompatibility = compatibilityService.updateCompatibility(cscId, compatibility);
         return ResponseEntity.ok(updatedCompatibility);
     }
 
     @DeleteMapping("/deleteCompatibility/{cscId}")
-    public ResponseEntity<Void> deleteCompatibility(@PathVariable("cscId") Integer cscId) {
+    public ResponseEntity<Void> deleteCompatibility(@PathVariable("cscId") Long cscId) {
         compatibilityService.deleteCompatibility(cscId);
         return ResponseEntity.noContent().build();
     }

@@ -19,33 +19,33 @@ public class MotherboardController {
 
     private final MotherboardService motherboardService;
 
-    @GetMapping
+    @GetMapping("/getAllMotherboards")
     public ResponseEntity<List<Motherboard>> getAllMotherboards() {
         List<Motherboard> motherboards = motherboardService.findAllMotherboards();
         return ResponseEntity.ok(motherboards);
     }
 
-    @GetMapping("/{moboId}")
-    public ResponseEntity<Optional<Motherboard>> getMotherboardById(@PathVariable("moboId") Integer moboId) {
+    @GetMapping("/getMotherboardById/{moboId}")
+    public ResponseEntity<Optional<Motherboard>> getMotherboardById(@PathVariable("moboId") Long moboId) {
         Optional<Motherboard> motherboard = motherboardService.findMotherboardById(moboId);
         return ResponseEntity.ok(motherboard);
     }
 
-    @PostMapping
+    @PostMapping("/createMotherboard")
     public ResponseEntity<Motherboard> createMotherboard(@RequestBody Motherboard motherboard) {
         Motherboard newMotherboard = motherboardService.createMotherboard(motherboard);
         return new ResponseEntity<>(newMotherboard, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{moboId}")
-    public ResponseEntity<Motherboard> updateMotherboard(@PathVariable("moboId") Integer moboId,
+    @PutMapping("/updateMotherboard/{moboId}")
+    public ResponseEntity<Motherboard> updateMotherboard(@PathVariable("moboId") Long moboId,
                                                          @RequestBody Motherboard motherboard) {
         Motherboard updatedMotherboard = motherboardService.updateMotherboard(moboId, motherboard);
         return ResponseEntity.ok(updatedMotherboard);
     }
 
-    @DeleteMapping("/{moboId}")
-    public ResponseEntity<Void> deleteMotherboard(@PathVariable("moboId") Integer moboId) {
+    @DeleteMapping("/deleteMotherboard/{moboId}")
+    public ResponseEntity<Void> deleteMotherboard(@PathVariable("moboId") Long moboId) {
         motherboardService.deleteMotherboard(moboId);
         return ResponseEntity.noContent().build();
     }

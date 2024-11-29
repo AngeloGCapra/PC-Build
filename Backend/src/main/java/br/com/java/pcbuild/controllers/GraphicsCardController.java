@@ -19,33 +19,33 @@ public class GraphicsCardController {
 
     private final GraphicsCardService graphicsCardService;
 
-    @GetMapping
+    @GetMapping("/getAllGraphicsCards")
     public ResponseEntity<List<GraphicsCard>> getAllGraphicsCards() {
         List<GraphicsCard> graphicsCards = graphicsCardService.findAllGraphicsCards();
         return ResponseEntity.ok(graphicsCards);
     }
 
-    @GetMapping("/{gpuId}")
-    public ResponseEntity<Optional<GraphicsCard>> getGraphicsCardById(@PathVariable("gpuId") Integer gpuId) {
+    @GetMapping("/getGraphicsCardById/{gpuId}")
+    public ResponseEntity<Optional<GraphicsCard>> getGraphicsCardById(@PathVariable("gpuId") Long gpuId) {
         Optional<GraphicsCard> graphicsCard = graphicsCardService.findGraphicsCardById(gpuId);
         return ResponseEntity.ok(graphicsCard);
     }
 
-    @PostMapping
+    @PostMapping("/createGraphicsCard")
     public ResponseEntity<GraphicsCard> createGraphicsCard(@RequestBody GraphicsCard graphicsCard) {
         GraphicsCard newGraphicsCard = graphicsCardService.createGraphicsCard(graphicsCard);
         return new ResponseEntity<>(newGraphicsCard, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{gpuId}")
-    public ResponseEntity<GraphicsCard> updateGraphicsCard(@PathVariable("gpuId") Integer gpuId,
+    @PutMapping("/updateGraphicsCard/{gpuId}")
+    public ResponseEntity<GraphicsCard> updateGraphicsCard(@PathVariable("gpuId") Long gpuId,
                                                            @RequestBody GraphicsCard graphicsCard) {
         GraphicsCard updatedGraphicsCard = graphicsCardService.updateGraphicsCard(gpuId, graphicsCard);
         return ResponseEntity.ok(updatedGraphicsCard);
     }
 
-    @DeleteMapping("/{gpuId}")
-    public ResponseEntity<Void> deleteGraphicsCard(@PathVariable("gpuId") Integer gpuId) {
+    @DeleteMapping("/deleteGraphicsCard/{gpuId}")
+    public ResponseEntity<Void> deleteGraphicsCard(@PathVariable("gpuId") Long gpuId) {
         graphicsCardService.deleteGraphicsCard(gpuId);
         return ResponseEntity.noContent().build();
     }

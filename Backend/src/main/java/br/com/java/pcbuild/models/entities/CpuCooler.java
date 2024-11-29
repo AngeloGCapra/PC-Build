@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.Utils.Component;
 import br.com.java.pcbuild.enums.CpuCoolerManufacturerEnum;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cpu_coolers")
-public class CpuCooler {
+public class CpuCooler implements Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,5 +42,10 @@ public class CpuCooler {
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+
+    @Override
+    public BigDecimal getPrice() {
+        return price;
+    }
 
 }

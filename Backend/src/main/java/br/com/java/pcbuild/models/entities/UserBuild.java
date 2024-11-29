@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.enums.UsageTypesEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,8 +20,9 @@ public class UserBuild {
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
-    @Column(name = "usage_type", nullable = false, length = 50)
-    private String usageType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "usage_type", nullable = false)
+    private UsageTypesEnum usageType;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

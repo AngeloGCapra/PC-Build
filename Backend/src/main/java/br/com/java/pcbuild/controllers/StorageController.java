@@ -26,7 +26,7 @@ public class StorageController {
     }
 
     @GetMapping("/getStorageById/{storageId}")
-    public ResponseEntity<Optional<Storage>> getStorageById(@PathVariable("storageId") Integer storageId) {
+    public ResponseEntity<Optional<Storage>> getStorageById(@PathVariable("storageId") Long storageId) {
         Optional<Storage> storage = storageService.findStorageById(storageId);
         return ResponseEntity.ok(storage);
     }
@@ -38,14 +38,14 @@ public class StorageController {
     }
 
     @PutMapping("/updateStorage/{storageId}")
-    public ResponseEntity<Storage> updateStorage(@PathVariable("storageId") Integer storageId,
+    public ResponseEntity<Storage> updateStorage(@PathVariable("storageId") Long storageId,
                                                  @RequestBody Storage updatedStorage) {
         Storage storage = storageService.updateStorage(storageId, updatedStorage);
         return ResponseEntity.ok(storage);
     }
 
     @DeleteMapping("/deleteStorage/{storageId}")
-    public ResponseEntity<Void> deleteStorage(@PathVariable("storageId") Integer storageId) {
+    public ResponseEntity<Void> deleteStorage(@PathVariable("storageId") Long storageId) {
         storageService.deleteStorage(storageId);
         return ResponseEntity.noContent().build();
     }

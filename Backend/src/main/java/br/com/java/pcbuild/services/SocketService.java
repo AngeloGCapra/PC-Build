@@ -22,7 +22,7 @@ public class SocketService {
         return socketRepository.findAll();
     }
 
-    public Optional<Socket> findSocketById(Integer socketId) {
+    public Optional<Socket> findSocketById(Long socketId) {
         return socketRepository.findById(socketId);
     }
 
@@ -30,7 +30,7 @@ public class SocketService {
         return socketRepository.save(socket);
     }
 
-    public Socket updateSocket(Integer socketId, Socket updatedSocket) {
+    public Socket updateSocket(Long socketId, Socket updatedSocket) {
         return socketRepository.findById(socketId)
                 .map(socketEntity -> {
                     modelMapper.map(updatedSocket, socketEntity);
@@ -38,7 +38,7 @@ public class SocketService {
                 }).orElseThrow(() -> new RuntimeException("Socket not found"));
     }
 
-    public void deleteSocket(Integer socketId) {
+    public void deleteSocket(Long socketId) {
         socketRepository.deleteById(socketId);
     }
 

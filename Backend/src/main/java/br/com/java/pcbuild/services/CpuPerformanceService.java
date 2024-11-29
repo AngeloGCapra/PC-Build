@@ -22,7 +22,7 @@ public class CpuPerformanceService {
         return cpuPerformanceRepository.findAll();
     }
 
-    public Optional<CpuPerformance> findCpuPerformanceById(Integer cpuPerformanceId) {
+    public Optional<CpuPerformance> findCpuPerformanceById(Long cpuPerformanceId) {
         return cpuPerformanceRepository.findById(cpuPerformanceId);
     }
 
@@ -30,7 +30,7 @@ public class CpuPerformanceService {
         return cpuPerformanceRepository.save(cpuPerformance);
     }
 
-    public CpuPerformance updateCpuPerformance(Integer cpuPerformanceId, CpuPerformance updatedCpuPerformance) {
+    public CpuPerformance updateCpuPerformance(Long cpuPerformanceId, CpuPerformance updatedCpuPerformance) {
         return cpuPerformanceRepository.findById(cpuPerformanceId)
                 .map(cpuPerformanceEntity -> {
                     modelMapper.map(updatedCpuPerformance, cpuPerformanceEntity);
@@ -38,7 +38,7 @@ public class CpuPerformanceService {
                 }).orElseThrow(() -> new RuntimeException("CpuPerformance not found"));
     }
 
-    public void deleteCpuPerformance(Integer cpuPerformanceId) {
+    public void deleteCpuPerformance(Long cpuPerformanceId) {
         cpuPerformanceRepository.deleteById(cpuPerformanceId);
     }
 

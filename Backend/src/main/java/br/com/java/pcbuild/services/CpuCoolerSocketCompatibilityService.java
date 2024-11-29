@@ -22,7 +22,7 @@ public class CpuCoolerSocketCompatibilityService {
         return compatibilityRepository.findAll();
     }
 
-    public Optional<CpuCoolerSocketCompatibility> findCompatibilityById(Integer cscId) {
+    public Optional<CpuCoolerSocketCompatibility> findCompatibilityById(Long cscId) {
         return compatibilityRepository.findById(cscId);
     }
 
@@ -30,7 +30,7 @@ public class CpuCoolerSocketCompatibilityService {
         return compatibilityRepository.save(compatibility);
     }
 
-    public CpuCoolerSocketCompatibility updateCompatibility(Integer cscId, CpuCoolerSocketCompatibility updatedCompatibility) {
+    public CpuCoolerSocketCompatibility updateCompatibility(Long cscId, CpuCoolerSocketCompatibility updatedCompatibility) {
         return compatibilityRepository.findById(cscId)
                 .map(existingCompatibilityEntity -> {
                     modelMapper.map(updatedCompatibility, existingCompatibilityEntity);
@@ -38,7 +38,7 @@ public class CpuCoolerSocketCompatibilityService {
                 }).orElseThrow(() -> new RuntimeException("Compatibility not found"));
     }
 
-    public void deleteCompatibility(Integer cscId) {
+    public void deleteCompatibility(Long cscId) {
         compatibilityRepository.deleteById(cscId);
     }
 

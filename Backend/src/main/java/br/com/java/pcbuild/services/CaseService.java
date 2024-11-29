@@ -22,7 +22,7 @@ public class CaseService {
         return caseRepository.findAll();
     }
 
-    public Optional<Case> findCaseById(Integer caseId) {
+    public Optional<Case> findCaseById(Long caseId) {
         return caseRepository.findById(caseId);
     }
 
@@ -30,7 +30,7 @@ public class CaseService {
         return caseRepository.save(caseEntity);
     }
 
-    public Case updateCase(Integer caseId, Case updatedCase) {
+    public Case updateCase(Long caseId, Case updatedCase) {
         return caseRepository.findById(caseId)
                 .map(caseEntity -> {
                     modelMapper.map(updatedCase, caseEntity);
@@ -38,7 +38,7 @@ public class CaseService {
                 }).orElseThrow(() -> new RuntimeException("Case not found"));
     }
 
-    public void deleteCase(Integer caseId) {
+    public void deleteCase(Long caseId) {
         caseRepository.deleteById(caseId);
     }
 

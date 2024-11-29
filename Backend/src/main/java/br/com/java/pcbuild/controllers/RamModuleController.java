@@ -26,7 +26,7 @@ public class RamModuleController {
     }
 
     @GetMapping("/getRamModuleById/{ramId}")
-    public ResponseEntity<Optional<RamModule>> getRamModuleById(@PathVariable("ramId") Integer ramId) {
+    public ResponseEntity<Optional<RamModule>> getRamModuleById(@PathVariable("ramId") Long ramId) {
         Optional<RamModule> ramModule = ramModuleService.findRamModuleById(ramId);
         return ResponseEntity.ok(ramModule);
     }
@@ -38,14 +38,14 @@ public class RamModuleController {
     }
 
     @PutMapping("/updateRamModule/{ramId}")
-    public ResponseEntity<RamModule> updateRamModule(@PathVariable("ramId") Integer ramId,
+    public ResponseEntity<RamModule> updateRamModule(@PathVariable("ramId") Long ramId,
                                                      @RequestBody RamModule ramModule) {
         RamModule updatedRamModule = ramModuleService.updateRamModule(ramId, ramModule);
         return ResponseEntity.ok(updatedRamModule);
     }
 
     @DeleteMapping("/deleteRamModule/{ramId}")
-    public ResponseEntity<Void> deleteRamModule(@PathVariable("ramId") Integer ramId) {
+    public ResponseEntity<Void> deleteRamModule(@PathVariable("ramId") Long ramId) {
         ramModuleService.deleteRamModule(ramId);
         return ResponseEntity.noContent().build();
     }

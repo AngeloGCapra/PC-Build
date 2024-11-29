@@ -22,7 +22,7 @@ public class MotherboardService {
         return motherboardRepository.findAll();
     }
 
-    public Optional<Motherboard> findMotherboardById(Integer moboId) {
+    public Optional<Motherboard> findMotherboardById(Long moboId) {
         return motherboardRepository.findById(moboId);
     }
 
@@ -30,7 +30,7 @@ public class MotherboardService {
         return motherboardRepository.save(motherboard);
     }
 
-    public Motherboard updateMotherboard(Integer moboId, Motherboard updatedMotherboard) {
+    public Motherboard updateMotherboard(Long moboId, Motherboard updatedMotherboard) {
         return motherboardRepository.findById(moboId)
                 .map(motherboardEntity -> {
                     modelMapper.map(updatedMotherboard, motherboardEntity);
@@ -38,7 +38,7 @@ public class MotherboardService {
                 }).orElseThrow(() -> new RuntimeException("Motherboard not found"));
     }
 
-    public void deleteMotherboard(Integer moboId) {
+    public void deleteMotherboard(Long moboId) {
         motherboardRepository.deleteById(moboId);
     }
 

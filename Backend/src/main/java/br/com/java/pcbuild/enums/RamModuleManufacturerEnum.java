@@ -11,6 +11,8 @@ public enum RamModuleManufacturerEnum {
     ADATA,
     SAMSUNG,
     HYPERX,
-    PNY
+    PNY,
+    GEIL,
+    XPG
 
 }

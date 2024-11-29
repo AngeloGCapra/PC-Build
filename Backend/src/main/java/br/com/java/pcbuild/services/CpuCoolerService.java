@@ -22,7 +22,7 @@ public class CpuCoolerService {
         return cpuCoolerRepository.findAll();
     }
 
-    public Optional<CpuCooler> findCpuCoolerById(Integer cpuCoolerId) {
+    public Optional<CpuCooler> findCpuCoolerById(Long cpuCoolerId) {
         return cpuCoolerRepository.findById(cpuCoolerId);
     }
 
@@ -30,7 +30,7 @@ public class CpuCoolerService {
         return cpuCoolerRepository.save(cpuCooler);
     }
 
-    public CpuCooler updateCpuCooler(Integer cpuCoolerId, CpuCooler updatedCpuCooler) {
+    public CpuCooler updateCpuCooler(Long cpuCoolerId, CpuCooler updatedCpuCooler) {
         return cpuCoolerRepository.findById(cpuCoolerId)
                 .map(cpuCoolerEntity -> {
                     modelMapper.map(updatedCpuCooler, cpuCoolerEntity);
@@ -38,7 +38,7 @@ public class CpuCoolerService {
                 }).orElseThrow(() -> new RuntimeException("CpuCooler not found"));
     }
 
-    public void deleteCpuCooler(Integer cpuCoolerId) {
+    public void deleteCpuCooler(Long cpuCoolerId) {
         cpuCoolerRepository.deleteById(cpuCoolerId);
     }
 

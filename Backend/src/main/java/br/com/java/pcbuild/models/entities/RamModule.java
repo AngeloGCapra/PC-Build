@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.Utils.Component;
 import br.com.java.pcbuild.enums.RamModuleManufacturerEnum;
 import br.com.java.pcbuild.enums.RamModuleModulesEnum;
 import br.com.java.pcbuild.enums.RamModuleTypeEnum;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "ram_modules")
-public class RamModule {
+public class RamModule implements Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +33,9 @@ public class RamModule {
     @Column(name = "speed", nullable = false)
     private Integer speed;
 
+    @Column(name = "cas_latency")
+    private Integer casLatency;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "modules", nullable = false, length = 50)
     private RamModuleModulesEnum modules;
@@ -45,5 +49,10 @@ public class RamModule {
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+
+    @Override
+    public BigDecimal getPrice() {
+        return price;
+    }
 
 }

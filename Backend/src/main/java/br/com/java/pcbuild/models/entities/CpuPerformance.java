@@ -14,8 +14,14 @@ public class CpuPerformance {
     @Column(name = "cpu_performance_id")
     private Long cpuPerformanceId;
 
-    @Column(name = "relative_performance", nullable = false)
-    private Integer relativePerformance;
+    @Column(name = "game_performance", nullable = false)
+    private Integer gamePerformance;
+
+    @Column(name = "single_thread_performance", nullable = false)
+    private Integer singleThreadPerformance;
+
+    @Column(name = "multi_thread_performance", nullable = false)
+    private Integer multiThreadPerformance;
 
     @ManyToOne
     @JoinColumn(name = "cpu_id", nullable = false)

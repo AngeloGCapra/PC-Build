@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CpuPerformanceRepository extends JpaRepository<CpuPerformance, Integer> {
+public interface CpuPerformanceRepository extends JpaRepository<CpuPerformance, Long> {
 
 
 

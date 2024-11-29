@@ -13,6 +13,7 @@ public enum GpuManufacturerEnum {
     PNY,
     PALIT,
     XFX,
-    SAPPHIRE
+    SAPPHIRE,
+    GALAX
 
 }

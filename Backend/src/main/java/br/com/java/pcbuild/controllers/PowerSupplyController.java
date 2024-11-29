@@ -19,33 +19,33 @@ public class PowerSupplyController {
 
     private final PowerSupplyService powerSupplyService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllPowerSupplies")
     public ResponseEntity<List<PowerSupply>> getAllPowerSupplies() {
         List<PowerSupply> powerSupplies = powerSupplyService.findAllPowerSupplies();
         return ResponseEntity.ok(powerSupplies);
     }
 
-    @GetMapping("/{powerSupplyId}")
-    public ResponseEntity<Optional<PowerSupply>> getPowerSupplyById(@PathVariable("powerSupplyId") Integer powerSupplyId) {
+    @GetMapping("/getPowerSupplyById/{powerSupplyId}")
+    public ResponseEntity<Optional<PowerSupply>> getPowerSupplyById(@PathVariable("powerSupplyId") Long powerSupplyId) {
         Optional<PowerSupply> powerSupply = powerSupplyService.findPowerSupplyById(powerSupplyId);
         return ResponseEntity.ok(powerSupply);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createPowerSupply")
     public ResponseEntity<PowerSupply> createPowerSupply(@RequestBody PowerSupply powerSupply) {
         PowerSupply newPowerSupply = powerSupplyService.createPowerSupply(powerSupply);
         return new ResponseEntity<>(newPowerSupply, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{powerSupplyId}")
-    public ResponseEntity<PowerSupply> updatePowerSupply(@PathVariable("powerSupplyId") Integer powerSupplyId,
+    @PutMapping("/updatePowerSupply/{powerSupplyId}")
+    public ResponseEntity<PowerSupply> updatePowerSupply(@PathVariable("powerSupplyId") Long powerSupplyId,
                                                          @RequestBody PowerSupply powerSupply) {
         PowerSupply updatedPowerSupply = powerSupplyService.updatePowerSupply(powerSupplyId, powerSupply);
         return ResponseEntity.ok(updatedPowerSupply);
     }
 
-    @DeleteMapping("/{powerSupplyId}")
-    public ResponseEntity<Void> deletePowerSupply(@PathVariable("powerSupplyId") Integer powerSupplyId) {
+    @DeleteMapping("/deletePowerSupply/{powerSupplyId}")
+    public ResponseEntity<Void> deletePowerSupply(@PathVariable("powerSupplyId") Long powerSupplyId) {
         powerSupplyService.deletePowerSupply(powerSupplyId);
         return ResponseEntity.noContent().build();
     }

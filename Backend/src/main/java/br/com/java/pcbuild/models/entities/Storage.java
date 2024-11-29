@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.Utils.Component;
 import br.com.java.pcbuild.enums.StorageFormFactorEnum;
 import br.com.java.pcbuild.enums.StorageInterfaceEnum;
 import br.com.java.pcbuild.enums.StorageManufacturerEnum;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "storages")
-public class Storage {
+public class Storage implements Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,5 +52,10 @@ public class Storage {
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+
+    @Override
+    public BigDecimal getPrice() {
+        return price;
+    }
 
 }

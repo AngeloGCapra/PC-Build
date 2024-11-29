@@ -22,7 +22,7 @@ public class GraphicsCardService {
         return graphicsCardRepository.findAll();
     }
 
-    public Optional<GraphicsCard> findGraphicsCardById(Integer gpuId) {
+    public Optional<GraphicsCard> findGraphicsCardById(Long gpuId) {
         return graphicsCardRepository.findById(gpuId);
     }
 
@@ -30,7 +30,7 @@ public class GraphicsCardService {
         return graphicsCardRepository.save(graphicsCard);
     }
 
-    public GraphicsCard updateGraphicsCard(Integer gpuId, GraphicsCard updatedGraphicsCard) {
+    public GraphicsCard updateGraphicsCard(Long gpuId, GraphicsCard updatedGraphicsCard) {
         return graphicsCardRepository.findById(gpuId)
                 .map(graphicsCardEntity -> {
                     modelMapper.map(updatedGraphicsCard, graphicsCardEntity);
@@ -38,7 +38,7 @@ public class GraphicsCardService {
                 }).orElseThrow(() -> new RuntimeException("GraphicsCard not found"));
     }
 
-    public void deleteGraphicsCard(Integer gpuId) {
+    public void deleteGraphicsCard(Long gpuId) {
         graphicsCardRepository.deleteById(gpuId);
     }
 

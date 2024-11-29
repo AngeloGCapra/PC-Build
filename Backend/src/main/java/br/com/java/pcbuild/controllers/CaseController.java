@@ -26,7 +26,7 @@ public class CaseController {
     }
 
     @GetMapping("/getCaseById/{caseId}")
-    public ResponseEntity<Optional<Case>> getCaseById(@PathVariable("caseId") Integer caseId) {
+    public ResponseEntity<Optional<Case>> getCaseById(@PathVariable("caseId") Long caseId) {
         Optional<Case> caseEntity = caseService.findCaseById(caseId);
         return ResponseEntity.ok(caseEntity);
     }
@@ -38,14 +38,14 @@ public class CaseController {
     }
 
     @PutMapping("/updateCase/{caseId}")
-    public ResponseEntity<Case> updateCase(@PathVariable("caseId") Integer caseId,
+    public ResponseEntity<Case> updateCase(@PathVariable("caseId") Long caseId,
                                            @RequestBody Case caseEntity) {
         Case updatedCase = caseService.updateCase(caseId, caseEntity);
         return ResponseEntity.ok(updatedCase);
     }
 
     @DeleteMapping("/deleteCase/{caseId}")
-    public ResponseEntity<Void> deleteCase(@PathVariable("caseId") Integer caseId) {
+    public ResponseEntity<Void> deleteCase(@PathVariable("caseId") Long caseId) {
         caseService.deleteCase(caseId);
         return ResponseEntity.noContent().build();
     }

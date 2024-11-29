@@ -1,17 +1,24 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.Utils.Component;
 import br.com.java.pcbuild.enums.MotherboardChipsetEnum;
 import br.com.java.pcbuild.enums.MotherboardFormFactorEnum;
 import br.com.java.pcbuild.enums.MotherboardManufacturerEnum;
+import br.com.java.pcbuild.enums.RamModuleTypeEnum;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 
 @Entity
 @Table(name = "motherboards")
-public class Motherboard {
+public class Motherboard implements Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +49,10 @@ public class Motherboard {
     @Column(name = "pcie_slots", nullable = false)
     private Integer pcieSlots;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "supported_ddr", nullable = false)
+    private RamModuleTypeEnum supportedDdr;
+
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
@@ -55,5 +66,32 @@ public class Motherboard {
     @ManyToOne
     @JoinColumn(name = "socket_id", nullable = false)
     private Socket socket;
+
+    @Override
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    // Getter que converte para uma lista de enums
+//    public List<RamModuleTypeEnum> getSupportedDdr() {
+//        if (supportedDdr != null && !supportedDdr.isEmpty()) {
+//            return Arrays.stream(supportedDdr.split(","))
+//                    .map(RamModuleTypeEnum::valueOf)
+//                    .collect(Collectors.toList());
+//        }
+//
+//        return new ArrayList<>();
+//    }
+
+    // Setter que converte uma lista de enums para string separada por vírgulas
+//    public void setSupportedDdr(List<RamModuleTypeEnum> ddrTypes) {
+//        if (ddrTypes != null && !ddrTypes.isEmpty()) {
+//            this.supportedDdr = ddrTypes.stream()
+//                    .map(Enum::name)
+//                    .collect(Collectors.joining(","));
+//        } else {
+//            this.supportedDdr = null;
+//        }
+//    }
 
 }

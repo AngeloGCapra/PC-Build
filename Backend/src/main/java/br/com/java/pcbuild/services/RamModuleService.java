@@ -22,7 +22,7 @@ public class RamModuleService {
         return ramModuleRepository.findAll();
     }
 
-    public Optional<RamModule> findRamModuleById(Integer ramId) {
+    public Optional<RamModule> findRamModuleById(Long ramId) {
         return ramModuleRepository.findById(ramId);
     }
 
@@ -30,7 +30,7 @@ public class RamModuleService {
         return ramModuleRepository.save(ramModule);
     }
 
-    public RamModule updateRamModule(Integer ramId, RamModule updatedRamModule) {
+    public RamModule updateRamModule(Long ramId, RamModule updatedRamModule) {
         return ramModuleRepository.findById(ramId)
                 .map(ramModuleEntity -> {
                     modelMapper.map(updatedRamModule, ramModuleEntity);
@@ -38,7 +38,7 @@ public class RamModuleService {
                 }).orElseThrow(() -> new RuntimeException("RamModule not found"));
     }
 
-    public void deleteRamModule(Integer ramId) {
+    public void deleteRamModule(Long ramId) {
         ramModuleRepository.deleteById(ramId);
     }
 

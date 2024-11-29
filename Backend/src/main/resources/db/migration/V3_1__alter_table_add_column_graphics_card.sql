@@ -1,0 +1,1 @@
+ALTER TABLE graphics_cards ADD COLUMN memory_type VARCHAR(100);

@@ -19,33 +19,33 @@ public class GpuPerformanceController {
 
     private final GpuPerformanceService gpuPerformanceService;
 
-    @GetMapping
+    @GetMapping("/getAllGpuPerformances")
     public ResponseEntity<List<GpuPerformance>> getAllGpuPerformances() {
         List<GpuPerformance> gpuPerformances = gpuPerformanceService.findAllGpuPerformances();
         return ResponseEntity.ok(gpuPerformances);
     }
 
-    @GetMapping("/{gpuPerformanceId}")
-    public ResponseEntity<Optional<GpuPerformance>> getGpuPerformanceById(@PathVariable("gpuPerformanceId") Integer gpuPerformanceId) {
+    @GetMapping("/getGpuPerformanceById/{gpuPerformanceId}")
+    public ResponseEntity<Optional<GpuPerformance>> getGpuPerformanceById(@PathVariable("gpuPerformanceId") Long gpuPerformanceId) {
         Optional<GpuPerformance> gpuPerformance = gpuPerformanceService.findGpuPerformanceById(gpuPerformanceId);
         return ResponseEntity.ok(gpuPerformance);
     }
 
-    @PostMapping
+    @PostMapping("/createGpuPerformance")
     public ResponseEntity<GpuPerformance> createGpuPerformance(@RequestBody GpuPerformance gpuPerformance) {
         GpuPerformance newGpuPerformance = gpuPerformanceService.createGpuPerformance(gpuPerformance);
         return new ResponseEntity<>(newGpuPerformance, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{gpuPerformanceId}")
-    public ResponseEntity<GpuPerformance> updateGpuPerformance(@PathVariable("gpuPerformanceId") Integer gpuPerformanceId,
+    @PutMapping("/updateGpuPerformance/{gpuPerformanceId}")
+    public ResponseEntity<GpuPerformance> updateGpuPerformance(@PathVariable("gpuPerformanceId") Long gpuPerformanceId,
                                                                @RequestBody GpuPerformance gpuPerformance) {
         GpuPerformance updatedGpuPerformance = gpuPerformanceService.updateGpuPerformance(gpuPerformanceId, gpuPerformance);
         return ResponseEntity.ok(updatedGpuPerformance);
     }
 
-    @DeleteMapping("/{gpuPerformanceId}")
-    public ResponseEntity<Void> deleteGpuPerformance(@PathVariable("gpuPerformanceId") Integer gpuPerformanceId) {
+    @DeleteMapping("/deleteGpuPerformance/{gpuPerformanceId}")
+    public ResponseEntity<Void> deleteGpuPerformance(@PathVariable("gpuPerformanceId") Long gpuPerformanceId) {
         gpuPerformanceService.deleteGpuPerformance(gpuPerformanceId);
         return ResponseEntity.noContent().build();
     }

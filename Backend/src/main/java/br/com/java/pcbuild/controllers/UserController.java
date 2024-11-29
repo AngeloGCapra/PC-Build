@@ -19,33 +19,33 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping(value = "/getAllUsers")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<Optional<User>> getUserById(@PathVariable("userId") Integer userId) {
+    @GetMapping("/getUserById/{userId}")
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable("userId") Long userId) {
         Optional<User> user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping
+    @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable("userId") Integer userId,
+    @PutMapping("/updateUser/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId,
                                            @RequestBody User user) {
         User updatedUser = userService.updateUser(userId, user);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Integer userId) {
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }

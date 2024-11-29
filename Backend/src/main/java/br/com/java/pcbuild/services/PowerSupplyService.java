@@ -22,7 +22,7 @@ public class PowerSupplyService {
         return powerSupplyRepository.findAll();
     }
 
-    public Optional<PowerSupply> findPowerSupplyById(Integer powerSupplyId) {
+    public Optional<PowerSupply> findPowerSupplyById(Long powerSupplyId) {
         return powerSupplyRepository.findById(powerSupplyId);
     }
 
@@ -30,7 +30,7 @@ public class PowerSupplyService {
         return powerSupplyRepository.save(powerSupply);
     }
 
-    public PowerSupply updatePowerSupply(Integer powerSupplyId, PowerSupply updatedPowerSupply) {
+    public PowerSupply updatePowerSupply(Long powerSupplyId, PowerSupply updatedPowerSupply) {
         return powerSupplyRepository.findById(powerSupplyId)
                 .map(powerSupplyEntity -> {
                     modelMapper.map(updatedPowerSupply, powerSupplyEntity);
@@ -38,7 +38,7 @@ public class PowerSupplyService {
                 }).orElseThrow(() -> new RuntimeException("Power Supply not found"));
     }
 
-    public void deletePowerSupply(Integer powerSupplyId) {
+    public void deletePowerSupply(Long powerSupplyId) {
         powerSupplyRepository.deleteById(powerSupplyId);
     }
 

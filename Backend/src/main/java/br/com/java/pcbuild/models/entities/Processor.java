@@ -1,5 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
+import br.com.java.pcbuild.Utils.Component;
 import br.com.java.pcbuild.enums.CpuBrandEnum;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "processors") // Colocar indexes
-public class Processor {
+public class Processor implements Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +39,9 @@ public class Processor {
     @Column(name = "tdp", nullable = false)
     private Integer tdp;
 
+    @Column(name = "power_consumption")
+    private Integer powerConsumption;
+
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
@@ -52,8 +56,9 @@ public class Processor {
     @JoinColumn(name = "socket_id", nullable = false)
     private Socket socket;
 
-    @ManyToOne
-    @JoinColumn(name = "cpu_performance_id")
-    private CpuPerformance cpuPerformance;
+    @Override
+    public BigDecimal getPrice() {
+        return price;
+    }
 
 }

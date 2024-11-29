@@ -26,7 +26,7 @@ public class CpuCoolerController {
     }
 
     @GetMapping("/getCpuCoolerById/{cpuCoolerId}")
-    public ResponseEntity<Optional<CpuCooler>> getCpuCoolerById(@PathVariable("cpuCoolerId") Integer cpuCoolerId) {
+    public ResponseEntity<Optional<CpuCooler>> getCpuCoolerById(@PathVariable("cpuCoolerId") Long cpuCoolerId) {
         Optional<CpuCooler> cpuCooler = cpuCoolerService.findCpuCoolerById(cpuCoolerId);
         return ResponseEntity.ok(cpuCooler);
     }
@@ -38,14 +38,14 @@ public class CpuCoolerController {
     }
 
     @PutMapping("/updateCpuCooler/{cpuCoolerId}")
-    public ResponseEntity<CpuCooler> updateCpuCooler(@PathVariable("cpuCoolerId") Integer cpuCoolerId,
+    public ResponseEntity<CpuCooler> updateCpuCooler(@PathVariable("cpuCoolerId") Long cpuCoolerId,
                                                      @RequestBody CpuCooler cpuCooler) {
         CpuCooler updatedCpuCooler = cpuCoolerService.updateCpuCooler(cpuCoolerId, cpuCooler);
         return ResponseEntity.ok(updatedCpuCooler);
     }
 
     @DeleteMapping("/deleteCpuCooler/{cpuCoolerId}")
-    public ResponseEntity<Void> deleteCpuCooler(@PathVariable("cpuCoolerId") Integer cpuCoolerId) {
+    public ResponseEntity<Void> deleteCpuCooler(@PathVariable("cpuCoolerId") Long cpuCoolerId) {
         cpuCoolerService.deleteCpuCooler(cpuCoolerId);
         return ResponseEntity.noContent().build();
     }

@@ -22,7 +22,7 @@ public class GpuPerformanceService {
         return gpuPerformanceRepository.findAll();
     }
 
-    public Optional<GpuPerformance> findGpuPerformanceById(Integer gpuPerformanceId) {
+    public Optional<GpuPerformance> findGpuPerformanceById(Long gpuPerformanceId) {
         return gpuPerformanceRepository.findById(gpuPerformanceId);
     }
 
@@ -30,7 +30,7 @@ public class GpuPerformanceService {
         return gpuPerformanceRepository.save(gpuPerformance);
     }
 
-    public GpuPerformance updateGpuPerformance(Integer gpuPerformanceId, GpuPerformance updatedGpuPerformance) {
+    public GpuPerformance updateGpuPerformance(Long gpuPerformanceId, GpuPerformance updatedGpuPerformance) {
         return gpuPerformanceRepository.findById(gpuPerformanceId)
                 .map(gpuPerformanceEntity -> {
                     modelMapper.map(updatedGpuPerformance, gpuPerformanceEntity);
@@ -38,7 +38,7 @@ public class GpuPerformanceService {
                 }).orElseThrow(() -> new RuntimeException("GpuPerformance not found"));
     }
 
-    public void deleteGpuPerformance(Integer gpuPerformanceId) {
+    public void deleteGpuPerformance(Long gpuPerformanceId) {
         gpuPerformanceRepository.deleteById(gpuPerformanceId);
     }
 
