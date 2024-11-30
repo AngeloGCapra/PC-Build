@@ -1,0 +1,1 @@
+DROP TABLE processor_socket_compatibility;

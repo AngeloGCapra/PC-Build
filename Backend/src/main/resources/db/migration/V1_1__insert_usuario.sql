@@ -1,0 +1,1 @@
+INSERT INTO users (name, email, password, created_at, updated_at, active_user) VALUES ('Administrador', 'adminpcbuild@gmail.com', '@admin123', now(), NULL, TRUE);
