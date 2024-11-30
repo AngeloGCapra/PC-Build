@@ -1,0 +1,1 @@
+ALTER TABLE motherboards ADD COLUMN supported_ddr VARCHAR(50);

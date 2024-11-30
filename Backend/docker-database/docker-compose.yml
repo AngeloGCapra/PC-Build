@@ -1,0 +1,14 @@
+version: '3.8' # Versão do docker-compose
+services:
+  postgres:
+    image: postgres:16.4
+    container_name: pc-build_container
+    restart: always
+    environment:
+      POSTGRES_DB: pcbuild_db # Nome do banco de dados
+      POSTGRES_USER: pcbuild_admin # Usuário do banco de dados
+      POSTGRES_PASSWORD: PcBuild_*@24# # Senha do usuário
+    ports:
+      - "5432:5432" # Porta do PostgreSQL
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data # Volume persistente para os dados

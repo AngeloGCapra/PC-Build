@@ -1,0 +1,1 @@
+ALTER TABLE ram_modules ADD COLUMN cas_latency INTEGER NULL;
