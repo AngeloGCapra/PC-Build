@@ -24,14 +24,3 @@ Plataforma para montagem e recomendação de PCs.
     ```sh
     docker-compose up --build
     ```
-
-### Frontend
-1. Navegue até a pasta `pcbuild-frontend`.
-2. Instale as dependências:
-    ```sh
-    npm install
-    ```
-3. Inicie a aplicação:
-    ```sh
-    npm start
-    ```
