@@ -1,19 +1,16 @@
 package br.com.java.pcbuild.services;
 
-import br.com.java.pcbuild.Utils.Component;
 import br.com.java.pcbuild.enums.UsageTypesEnum;
 import br.com.java.pcbuild.models.entities.*;
 import br.com.java.pcbuild.repositories.*;
+import br.com.java.pcbuild.utils.BuildNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -56,132 +53,180 @@ public class UserBuildService {
         userBuildRepository.deleteById(userBuildId);
     }
 
-    public Optional<UserBuild> generateBuild(Long userId, BigDecimal budget, UsageTypesEnum usageType) {
-        log.info("Generating build: User: {}, Budget: {}, Usage Type: {}", userId, budget, usageType);
+    public Optional<UserBuild> generateBuildWithOptimization(Long userId, BigDecimal budget, UsageTypesEnum usageType) {
+        log.info("Generating optimized build: User: {}, Budget: {}, Usage Type: {}", userId, budget, usageType);
 
-        // Initialize components
-        Processor selectedCpu = new Processor();
-        GraphicsCard selectedGpu = new GraphicsCard();
-        Motherboard selectedMotherboard = new Motherboard();
-        RamModule selectedRam = new RamModule();
-        CpuCooler selectedCpuCooler = new CpuCooler();
-        PowerSupply selectedPowerSupply = new PowerSupply();
-        Storage selectedStorage = new Storage();
-        Case selectedCase = new Case();
+        PriorityQueue<BuildNode> queue = new PriorityQueue<>(Comparator.comparing(BuildNode::getTotalCost).reversed());
 
-        BigDecimal remainingBudget = budget;
+        if (UsageTypesEnum.GAMES.equals(usageType)) {
+            // Inicia com todas as opções de GPU disponíveis
+            List<GraphicsCard> gpuOptions = graphicsCardRepository.findGraphicsCardsUnderBudget(budget);
 
-        // 1. Selecting CPU and GPU
-        if (usageType.equals(UsageTypesEnum.GAMES)) { // Prioritizing GPU first
-            selectedGpu = selectGraphicsCard(remainingBudget);
-            remainingBudget = subtractPrice(selectedGpu, remainingBudget);
+            for (GraphicsCard gpu : gpuOptions) {
+                BuildNode initialNode = new BuildNode(budget);
 
-            selectedCpu = selectProcessor(remainingBudget, usageType);
-            remainingBudget = subtractPrice(selectedCpu, remainingBudget);
-        } else if (usageType.equals(UsageTypesEnum.WORK)) { // Prioritizing CPU first
-            selectedCpu = selectProcessor(remainingBudget, usageType);
-            remainingBudget = subtractPrice(selectedCpu, remainingBudget);
+                initialNode.setGpu(gpu);
+                initialNode.setRemainingBudget(budget.subtract(gpu.getPrice()));
+                initialNode.setTotalCost(gpu.getPrice());
 
-            selectedGpu = selectGraphicsCard(remainingBudget);
-            remainingBudget = subtractPrice(selectedGpu, remainingBudget);
+                queue.add(initialNode);
+            }
+        } else if (UsageTypesEnum.WORK.equals(usageType)) {
+            // Inicia com todas as opções de CPU disponíveis
+            List<Processor> cpuOptions = processorRepository.findProcessorsUnderBudget(usageType.toString(), budget);
+
+            for (Processor cpu : cpuOptions) {
+                BuildNode initialNode = new BuildNode(budget);
+
+                initialNode.setCpu(cpu);
+                initialNode.setRemainingBudget(budget.subtract(cpu.getPrice()));
+                initialNode.setTotalCost(cpu.getPrice());
+
+                queue.add(initialNode);
+            }
         }
 
-        // 2. Selecting Motherboard
-        selectedMotherboard = selectMotherboard(selectedCpu, remainingBudget);
-        remainingBudget = subtractPrice(selectedMotherboard, remainingBudget);
+        UserBuild bestBuild = null;
 
-        // 3. Selecting RAM
-        selectedRam = selectRam(selectedMotherboard, remainingBudget);
-        remainingBudget = subtractPrice(selectedRam, remainingBudget);
+        while (!queue.isEmpty()) {
+            BuildNode currentNode = queue.poll();
 
-        // 4. Selecting CPU Cooler
-        selectedCpuCooler = selectCpuCooler(selectedCpu, remainingBudget);
-        remainingBudget = subtractPrice(selectedCpuCooler, remainingBudget);
+            UserBuild build = tryGenerateBuild(currentNode, userId, usageType);
+            if (build != null) {
+                bestBuild = build;
+                break;
+            }
+        }
 
-        // 5. Selecting Power Supply
-        selectedPowerSupply = selectPowerSupply(selectedCpu, selectedGpu, remainingBudget);
-        remainingBudget = subtractPrice(selectedPowerSupply, remainingBudget);
-
-        // 6. Selecting Storage
-        selectedStorage = selectStorage(remainingBudget);
-        remainingBudget = subtractPrice(selectedStorage, remainingBudget);
-
-        // 7. Selecting Case
-        selectedCase = selectCase(selectedMotherboard, remainingBudget);
-        remainingBudget = subtractPrice(selectedCase, remainingBudget);
-
-        // Ensuring all components are selected
-        if (anyComponentMissing(selectedCpu, selectedGpu, selectedMotherboard, selectedRam, selectedStorage, selectedPowerSupply, selectedCase, selectedCpuCooler)) {
+        if (bestBuild == null) {
             log.warn("Could not generate a complete build within the budget.");
             return Optional.empty();
         }
 
-        // Creating and saving the build
-        UserBuild build = createUserBuild(userId, selectedCpu, selectedGpu, selectedMotherboard, selectedRam,
-                selectedStorage, selectedPowerSupply, selectedCase, selectedCpuCooler,
-                budget.subtract(remainingBudget), usageType);
-
-        log.info("Build successfully generated: {}", build);
-        return Optional.of(build);
+        log.info("Optimized build successfully generated: {}", bestBuild);
+        return Optional.of(bestBuild);
     }
 
-    private GraphicsCard selectGraphicsCard(BigDecimal budget) {
-        List<GraphicsCard> options = graphicsCardRepository.findGraphicsCardsUnderBudget(budget);
-        return options.stream().findFirst().orElse(null);
-    }
+    private UserBuild tryGenerateBuild(BuildNode node, Long userId, UsageTypesEnum usageType) {
+        if (UsageTypesEnum.GAMES.equals(usageType)) {
+            if (node.getCpu() == null) {
+                List<Processor> processors = processorRepository.findProcessorsUnderBudget(usageType.toString(), node.getRemainingBudget());
 
-    private Processor selectProcessor(BigDecimal budget, UsageTypesEnum usageType) {
-        List<Processor> options = processorRepository.findProcessorsUnderBudget(budget, usageType.toString());
-        return options.stream().findFirst().orElse(null);
-    }
+                if (!processors.isEmpty()) {
+                    Processor selectedProcessor = processors.getFirst();
 
-    private Motherboard selectMotherboard(Processor cpu, BigDecimal budget) {
-        if (cpu == null) return null;
-        List<Motherboard> options = motherboardRepository.findCompatibleMotherboardsUnderBudget(cpu.getSocket().getSocketId(), budget);
-        return options.stream().findFirst().orElse(null);
-    }
+                    node.setCpu(selectedProcessor);
+                    node.setRemainingBudget(node.getRemainingBudget().subtract(selectedProcessor.getPrice()));
+                    node.setTotalCost(node.getTotalCost().add(selectedProcessor.getPrice()));
+                }
+            }
+        } else if (UsageTypesEnum.WORK.equals(usageType)) {
+            if (node.getGpu() == null) {
+                List<GraphicsCard> graphicsCards = graphicsCardRepository.findGraphicsCardsUnderBudget(node.getRemainingBudget());
 
-    private RamModule selectRam(Motherboard motherboard, BigDecimal budget) {
-        if (motherboard == null) return null;
-        List<RamModule> options = ramModuleRepository.findCompatibleRamModulesUnderBudget(motherboard.getSupportedDdr(), budget);
-        return options.stream().findFirst().orElse(null);
-    }
+                if (!graphicsCards.isEmpty()) {
+                    GraphicsCard selectedGraphicsCard = graphicsCards.getFirst();
 
-    private CpuCooler selectCpuCooler(Processor cpu, BigDecimal budget) {
-        if (cpu == null) return null;
-        List<CpuCooler> options = cpuCoolerRepository.findCompatibleCoolersUnderBudget(cpu.getSocket().getSocketId(), budget);
-        return options.stream().findFirst().orElse(null);
-    }
+                    node.setGpu(selectedGraphicsCard);
+                    node.setRemainingBudget(node.getRemainingBudget().subtract(selectedGraphicsCard.getPrice()));
+                    node.setTotalCost(node.getTotalCost().add(selectedGraphicsCard.getPrice()));
+                }
+            }
+        }
 
-    private PowerSupply selectPowerSupply(Processor cpu, GraphicsCard gpu, BigDecimal budget) {
-        if (cpu == null || gpu == null) return null;
-        int requiredPower = calculatePowerConsumption(cpu, gpu);
-        List<PowerSupply> options = powerSupplyRepository.findPowerSuppliesUnderBudget(requiredPower, budget);
-        return options.stream().findFirst().orElse(null);
-    }
+        if (node.getMotherboard() == null && node.getCpu() != null) {
+            List<Motherboard> motherboards = motherboardRepository.findCompatibleMotherboardsUnderBudget(node.getCpu().getSocket().getSocketId(), node.getRemainingBudget());
 
-    private Storage selectStorage(BigDecimal budget) {
-        List<Storage> options = storageRepository.findBestStorageUnderBudget(budget);
-        return options.stream().findFirst().orElse(null);
-    }
+            if (!motherboards.isEmpty()) {
+                Motherboard selectedMotherboard = motherboards.getFirst();
 
-    private Case selectCase(Motherboard motherboard, BigDecimal budget) {
-        if (motherboard == null) return null;
-        List<Case> options = caseRepository.findCasesUnderBudget(budget);
-        return options.stream().findFirst().orElse(null);
-    }
+                node.setMotherboard(selectedMotherboard);
+                node.setRemainingBudget(node.getRemainingBudget().subtract(selectedMotherboard.getPrice()));
+                node.setTotalCost(node.getTotalCost().add(selectedMotherboard.getPrice()));
+            }
+        }
 
-    private BigDecimal subtractPrice(Component component, BigDecimal budget) {
-        if (component == null) return budget;
-        return budget.subtract(component.getPrice());
-    }
+        if (node.getRam() == null && node.getMotherboard() != null) {
+            List<RamModule> ramModules = ramModuleRepository.findCompatibleRamModulesUnderBudget(node.getMotherboard().getSupportedDdr(), node.getRemainingBudget());
 
-    private boolean anyComponentMissing(Component... components) {
-        return Arrays.stream(components).anyMatch(Objects::isNull);
+            if (!ramModules.isEmpty()) {
+                RamModule selectedRam = ramModules.getFirst();
+
+                node.setRam(selectedRam);
+                node.setRemainingBudget(node.getRemainingBudget().subtract(selectedRam.getPrice()));
+                node.setTotalCost(node.getTotalCost().add(selectedRam.getPrice()));
+            }
+        }
+
+        if (node.getCpuCooler() == null && node.getMotherboard() != null) {
+            List<CpuCooler> coolers = cpuCoolerRepository.findCompatibleCoolersUnderBudget(node.getMotherboard().getSocket().getSocketId(), node.getRemainingBudget());
+
+            if (!coolers.isEmpty()) {
+                CpuCooler selectedCooler = coolers.getFirst();
+
+                node.setCpuCooler(selectedCooler);
+                node.setRemainingBudget(node.getRemainingBudget().subtract(selectedCooler.getPrice()));
+                node.setTotalCost(node.getTotalCost().add(selectedCooler.getPrice()));
+            }
+        }
+
+        if (node.getPowerSupply() == null && node.getCpu() != null && node.getGpu() != null) {
+            int requiredWattage = calculatePowerConsumption(node.getCpu(), node.getGpu());
+            List<PowerSupply> powerSupplies = powerSupplyRepository.findPowerSuppliesUnderBudget(requiredWattage, node.getRemainingBudget());
+
+            if (!powerSupplies.isEmpty()) {
+                PowerSupply selectedPowerSupply = powerSupplies.getFirst();
+
+                node.setPowerSupply(selectedPowerSupply);
+                node.setRemainingBudget(node.getRemainingBudget().subtract(selectedPowerSupply.getPrice()));
+                node.setTotalCost(node.getTotalCost().add(selectedPowerSupply.getPrice()));
+            }
+        }
+
+        if (node.getStorage() == null) {
+            List<Storage> storages = storageRepository.findStorageUnderBudget(node.getRemainingBudget());
+
+            if (!storages.isEmpty()) {
+                Storage selectedStorage = storages.getFirst();
+
+                node.setStorage(selectedStorage);
+                node.setRemainingBudget(node.getRemainingBudget().subtract(selectedStorage.getPrice()));
+                node.setTotalCost(node.getTotalCost().add(selectedStorage.getPrice()));
+            }
+        }
+
+        if (node.getPcCase() == null) {
+            List<Case> cases = caseRepository.findCasesUnderBudget(node.getRemainingBudget());
+
+            if (!cases.isEmpty()) {
+                Case selectedCase = cases.getFirst();
+
+                node.setPcCase(selectedCase);
+                node.setRemainingBudget(node.getRemainingBudget().subtract(selectedCase.getPrice()));
+                node.setTotalCost(node.getTotalCost().add(selectedCase.getPrice()));
+            }
+        }
+
+        if (node.isComplete()) {
+            return createUserBuild(
+                    userId,
+                    node.getCpu(),
+                    node.getGpu(),
+                    node.getMotherboard(),
+                    node.getRam(),
+                    node.getCpuCooler(),
+                    node.getPowerSupply(),
+                    node.getStorage(),
+                    node.getPcCase(),
+                    node.getTotalCost(),
+                    usageType);
+        } else {
+            return null;
+        }
     }
 
     private UserBuild createUserBuild(Long userId, Processor cpu, GraphicsCard gpu, Motherboard motherboard, RamModule ram,
-                                      Storage storage, PowerSupply powerSupply, Case pcCase, CpuCooler cpuCooler,
+                                      CpuCooler cpuCooler, PowerSupply powerSupply, Storage storage, Case pcCase,
                                       BigDecimal totalPrice, UsageTypesEnum usageType) {
         UserBuild build = new UserBuild();
 
@@ -189,10 +234,10 @@ public class UserBuildService {
         build.setGpu(gpu);
         build.setMotherboard(motherboard);
         build.setRam(ram);
-        build.setStorage(storage);
-        build.setPowerSupply(powerSupply);
-        build.setPcCase(pcCase);
         build.setCpuCooler(cpuCooler);
+        build.setPowerSupply(powerSupply);
+        build.setStorage(storage);
+        build.setPcCase(pcCase);
         build.setTotalPrice(totalPrice);
         build.setUsageType(usageType);
 

@@ -1,6 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
-import br.com.java.pcbuild.Utils.Component;
+import br.com.java.pcbuild.utils.Component;
 import br.com.java.pcbuild.enums.CaseManufacturerEnum;
 import br.com.java.pcbuild.enums.CaseTypeEnum;
 import jakarta.persistence.*;

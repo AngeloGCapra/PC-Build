@@ -1,4 +1,4 @@
-package br.com.java.pcbuild.Utils;
+package br.com.java.pcbuild.utils;
 
 import java.math.BigDecimal;
 

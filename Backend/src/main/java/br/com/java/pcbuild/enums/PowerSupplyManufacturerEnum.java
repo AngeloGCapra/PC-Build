@@ -15,6 +15,7 @@ public enum PowerSupplyManufacturerEnum {
     GIGABYTE,
     AEROCOOL,
     XPG,
-    MSI
+    MSI,
+    GAMDIAS
 
 }

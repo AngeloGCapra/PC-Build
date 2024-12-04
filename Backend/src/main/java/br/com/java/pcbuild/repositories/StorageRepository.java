@@ -18,6 +18,6 @@ public interface StorageRepository extends JpaRepository<Storage, Long> {
             WHERE s.price <= :budget
             ORDER BY s.componentRanking DESC
             """)
-    List<Storage> findBestStorageUnderBudget(@Param("budget") BigDecimal budget);
+    List<Storage> findStorageUnderBudget(@Param("budget") BigDecimal budget);
 
 }

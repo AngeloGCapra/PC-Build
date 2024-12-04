@@ -23,7 +23,7 @@ public interface ProcessorRepository extends JpaRepository<Processor, Long> {
                     ELSE cp.singleThreadPerformance
                 END DESC
             """)
-    List<Processor> findProcessorsUnderBudget(@Param("budget") BigDecimal budget,
-                                              @Param("usageType") String usageType);
+    List<Processor> findProcessorsUnderBudget(@Param("usageType") String usageType,
+                                              @Param("budget") BigDecimal budget);
 
 }

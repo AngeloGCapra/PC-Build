@@ -1,6 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
-import br.com.java.pcbuild.Utils.Component;
+import br.com.java.pcbuild.utils.Component;
 import br.com.java.pcbuild.enums.RamModuleManufacturerEnum;
 import br.com.java.pcbuild.enums.RamModuleModulesEnum;
 import br.com.java.pcbuild.enums.RamModuleTypeEnum;

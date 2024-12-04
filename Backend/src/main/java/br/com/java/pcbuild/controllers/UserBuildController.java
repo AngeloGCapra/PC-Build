@@ -37,7 +37,7 @@ public class UserBuildController {
     public ResponseEntity<Optional<UserBuild>> generateBuild(@RequestHeader(value = "userId", required = false) Long userId,
                                                              @RequestParam(value = "budget") BigDecimal budget,
                                                              @RequestParam(value = "usageType") UsageTypesEnum usageType) {
-        Optional<UserBuild> newUserBuild = userBuildService.generateBuild(userId, budget, usageType);
+        Optional<UserBuild> newUserBuild = userBuildService.generateBuildWithOptimization(userId, budget, usageType);
         return new ResponseEntity<>(newUserBuild, HttpStatus.CREATED);
     }
 

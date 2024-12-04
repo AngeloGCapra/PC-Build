@@ -1,6 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
-import br.com.java.pcbuild.Utils.Component;
+import br.com.java.pcbuild.utils.Component;
 import br.com.java.pcbuild.enums.GpuBrandEnum;
 import br.com.java.pcbuild.enums.GpuChipsetEnum;
 import br.com.java.pcbuild.enums.GpuManufacturerEnum;

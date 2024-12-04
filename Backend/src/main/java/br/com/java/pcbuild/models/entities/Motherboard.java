@@ -1,6 +1,6 @@
 package br.com.java.pcbuild.models.entities;
 
-import br.com.java.pcbuild.Utils.Component;
+import br.com.java.pcbuild.utils.Component;
 import br.com.java.pcbuild.enums.MotherboardChipsetEnum;
 import br.com.java.pcbuild.enums.MotherboardFormFactorEnum;
 import br.com.java.pcbuild.enums.MotherboardManufacturerEnum;
@@ -9,10 +9,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 
