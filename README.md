@@ -6,7 +6,6 @@ Plataforma para montagem e recomendação de PCs.
 ## Tecnologias Utilizadas
 - Java 21
 - Spring Boot
-- React
 - PostgreSQL
 - Docker
 
