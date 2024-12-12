@@ -58,7 +58,7 @@ public class UserBuildService {
 
         PriorityQueue<BuildNode> queue = new PriorityQueue<>(Comparator.comparing(BuildNode::getTotalCost).reversed());
 
-        if (UsageTypesEnum.GAMES.equals(usageType)) {
+        if (UsageTypesEnum.ENTERTAINMENT.equals(usageType)) {
             List<GraphicsCard> gpuOptions = graphicsCardRepository.findGraphicsCardsUnderBudget(budget);
 
             for (GraphicsCard gpu : gpuOptions) {
@@ -106,7 +106,7 @@ public class UserBuildService {
     }
 
     private UserBuild tryGenerateBuild(BuildNode node, Long userId, UsageTypesEnum usageType) {
-        if (UsageTypesEnum.GAMES.equals(usageType)) {
+        if (UsageTypesEnum.ENTERTAINMENT.equals(usageType)) {
             if (node.getCpu() == null) {
                 List<Processor> processors = processorRepository.findProcessorsUnderBudget(usageType.toString(), node.getRemainingBudget());
 
