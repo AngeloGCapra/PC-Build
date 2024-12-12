@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface MotherboardRepository extends JpaRepository<Motherboard, Long> {
 
+    List<Motherboard> findAllByOrderByPriceAsc();
+
     @Query("""
             SELECT m
             FROM Motherboard m

@@ -19,7 +19,7 @@ public class CpuCoolerService {
     private final CpuCoolerRepository cpuCoolerRepository;
 
     public List<CpuCooler> findAllCpuCoolers() {
-        return cpuCoolerRepository.findAll();
+        return cpuCoolerRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<CpuCooler> findCpuCoolerById(Long cpuCoolerId) {

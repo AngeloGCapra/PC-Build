@@ -13,6 +13,8 @@ import java.util.List;
 @Repository
 public interface RamModuleRepository extends JpaRepository<RamModule, Long> {
 
+    List<RamModule> findAllByOrderByPriceAsc();
+
     @Query("""
             SELECT rm
             FROM RamModule rm

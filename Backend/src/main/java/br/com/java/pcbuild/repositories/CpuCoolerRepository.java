@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface CpuCoolerRepository extends JpaRepository<CpuCooler, Long> {
 
+    List<CpuCooler> findAllByOrderByPriceAsc();
+
     @Query("""
             SELECT cc
             FROM CpuCooler cc

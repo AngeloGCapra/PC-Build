@@ -19,7 +19,7 @@ public class StorageService {
     private final StorageRepository storageRepository;
 
     public List<Storage> findAllStorages() {
-        return storageRepository.findAll();
+        return storageRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<Storage> findStorageById(Long storageId) {

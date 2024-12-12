@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface GraphicsCardRepository extends JpaRepository<GraphicsCard, Long> {
 
+    List<GraphicsCard> findAllByOrderByPriceAsc();
+
     @Query("""
             SELECT gp.gpu
             FROM GpuPerformance gp

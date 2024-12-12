@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface PowerSupplyRepository extends JpaRepository<PowerSupply, Long> {
 
+    List<PowerSupply> findAllByOrderByPriceAsc();
+
     @Query("""
             SELECT ps
             FROM PowerSupply ps

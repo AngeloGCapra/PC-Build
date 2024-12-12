@@ -19,7 +19,7 @@ public class PowerSupplyService {
     private final PowerSupplyRepository powerSupplyRepository;
 
     public List<PowerSupply> findAllPowerSupplies() {
-        return powerSupplyRepository.findAll();
+        return powerSupplyRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<PowerSupply> findPowerSupplyById(Long powerSupplyId) {

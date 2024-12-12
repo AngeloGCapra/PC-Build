@@ -19,7 +19,7 @@ public class GraphicsCardService {
     private final GraphicsCardRepository graphicsCardRepository;
 
     public List<GraphicsCard> findAllGraphicsCards() {
-        return graphicsCardRepository.findAll();
+        return graphicsCardRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<GraphicsCard> findGraphicsCardById(Long gpuId) {

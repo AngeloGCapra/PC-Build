@@ -19,7 +19,7 @@ public class ProcessorService {
     private final ProcessorRepository processorRepository;
 
     public List<Processor> findAllProcessors() {
-        return processorRepository.findAll();
+        return processorRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<Processor> findProcessorById(Long processorId) {

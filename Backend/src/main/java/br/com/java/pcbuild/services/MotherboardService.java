@@ -19,7 +19,7 @@ public class MotherboardService {
     private final MotherboardRepository motherboardRepository;
 
     public List<Motherboard> findAllMotherboards() {
-        return motherboardRepository.findAll();
+        return motherboardRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<Motherboard> findMotherboardById(Long moboId) {

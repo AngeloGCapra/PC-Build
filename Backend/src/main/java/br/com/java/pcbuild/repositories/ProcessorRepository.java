@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface ProcessorRepository extends JpaRepository<Processor, Long> {
 
+    List<Processor> findAllByOrderByPriceAsc();
+
     @Query("""
             SELECT cp.cpu
             FROM CpuPerformance cp

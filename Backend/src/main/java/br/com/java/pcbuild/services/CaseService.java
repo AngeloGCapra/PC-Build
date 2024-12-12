@@ -19,7 +19,7 @@ public class CaseService {
     private final CaseRepository caseRepository;
 
     public List<Case> findAllCases() {
-        return caseRepository.findAll();
+        return caseRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<Case> findCaseById(Long caseId) {

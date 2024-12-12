@@ -19,7 +19,7 @@ public class RamModuleService {
     private final RamModuleRepository ramModuleRepository;
 
     public List<RamModule> findAllRamModules() {
-        return ramModuleRepository.findAll();
+        return ramModuleRepository.findAllByOrderByPriceAsc();
     }
 
     public Optional<RamModule> findRamModuleById(Long ramId) {

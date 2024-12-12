@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface StorageRepository extends JpaRepository<Storage, Long> {
 
+    List<Storage> findAllByOrderByPriceAsc();
+
     @Query("""
             SELECT s
             FROM Storage s
