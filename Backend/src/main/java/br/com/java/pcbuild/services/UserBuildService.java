@@ -45,8 +45,14 @@ public class UserBuildService {
         return userBuildRepository.findById(userBuildId)
                 .map(existingUserBuildEntity -> {
                     modelMapper.map(updatedUserBuild, existingUserBuildEntity);
+
+                    // Recalculate the total price based on updated components
+                    BigDecimal updatedTotalPrice = calculateTotalPrice(existingUserBuildEntity);
+                    existingUserBuildEntity.setTotalPrice(updatedTotalPrice);
+
                     return userBuildRepository.save(existingUserBuildEntity);
-                }).orElseThrow(() -> new RuntimeException("User build not found"));
+                })
+                .orElseThrow(() -> new RuntimeException("User build not found"));
     }
 
     public void deleteUserBuild(Long userBuildId) {
@@ -264,6 +270,17 @@ public class UserBuildService {
         int gpuPower = selectedGpu.getPowerConsumption();
 
         return cpuPower + gpuPower;
+    }
+
+    private BigDecimal calculateTotalPrice(UserBuild userBuild) {
+        return userBuild.getCpu().getPrice()
+                .add(userBuild.getGpu().getPrice())
+                .add(userBuild.getMotherboard().getPrice())
+                .add(userBuild.getRam().getPrice())
+                .add(userBuild.getCpuCooler().getPrice())
+                .add(userBuild.getPowerSupply().getPrice())
+                .add(userBuild.getStorage().getPrice())
+                .add(userBuild.getPcCase().getPrice());
     }
 
 }
